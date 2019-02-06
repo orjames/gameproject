@@ -10,6 +10,7 @@ var i = 0;
 var j = 0;
 var currentValue = 0;
 var gameOver = false;
+var levelCount = 0;
 
 // generates a random number between and including 0 to 1
 function randomNumber0Through1() {
@@ -352,12 +353,12 @@ function generateThreeCorrectSlotsOfThree() {
 }
 
 function initialize() {
+    gameOver = false;
     i = 0;
     j = 0;
     blockValues[i] = randomNumber0Through9();
     currentBlock = blockValues[i];
     document.getElementById(blockIds[i].toString()).textContent = blockValues[i];
-
 }
 
 function colorBackground() {
@@ -427,6 +428,8 @@ var timerBar = setInterval( function() {
     if(timeLeft <= 0) {
     updateYouLost();
     clearInterval(timerBar);
+    } if (gameOver) {
+        clearInterval(timerBar);
     }
 }, 100);
 
@@ -454,6 +457,12 @@ function updateYouLost() {
     document.querySelector('header').textContent = 'you lost';
 }
 
+function updateYouWon() {
+    gameOver = true;
+    document.querySelector('header').textContent = 'you won';
+    levelCount++;
+}
+
 function checkIfLost() {
     if (currentValue > 9) {
         console.log('exceeded 9 in positive double digits, lost');
@@ -477,6 +486,7 @@ function checkIfLost() {
         }
     } else if ((board.length - 1) === clickCount) {
         console.log('you won');
+        updateYouWon();
     }
 }
 
