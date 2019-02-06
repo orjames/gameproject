@@ -1,11 +1,18 @@
 body {
+    background-color: rgba(138, 141, 143, 0.9);
+}
+
+main {
     display: grid;
     text-align: center;
-    min-height: 100vh;
-    grid-template-rows:     0fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr;
-    grid-template-columns:  50fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 50fr 0fr;
+    /* min-height: 100vh; */
+    width: 375px;
+    height: 750px;
+    margin: 0 auto;
+    grid-template-rows:     0fr 20fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 15fr;
+    grid-template-columns:  2fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 2fr 0fr;
     grid-template-areas:    "r0c1   r0c2    r0c3    r0c4    r0c5    r0c6    r0c7    r0c8    r0c9    r0c10   r0c11"
-                            "r1c1   header  header  header  header  header  header  header  header  r1c10   r1c11"
+                            "r1c1   r1c2   header  header  header  header  header  header   r1c9    r1c10   r1c11"
                             "r2c1   r2c2    r2c3    r2c4    r2c5    r2c6    r2c7    r2c8    r2c9    r2c10   r2c11"
                             "r3c1   r3c2    r3c3    r3c4    r3c5    r3c6    r3c7    r3c8    r3c9    r3c10   r3c11"
                             "r4c1   r4c2    r4c3    r4c4    r4c5    r4c6    r4c7    r4c8    r4c9    r4c10   r4c11"
@@ -16,9 +23,29 @@ body {
                             "r9c1   r9c2    r9c3    r9c4    r9c5    r9c6    r9c7    r9c8    r9c9    r9c10   r9c11"
                             "r10c1  r10c2   r10c3   r10c4   r10c5   r10c6   r10c7   r10c8   r10c9   r10c10  r10c11"
                             "r11c1  r11c2   r11c3   r11c4   r11c5   r11c6   r11c7   r11c8   r11c9   r11c10  r11c11"
-                            "r12c1  r12c2   r12c3   r12c4   r12c5   r12c6   r12c7   r12c8   r12c9   r12c10  r12c11";
-                            position: relative;
+                            "r12c1  timer   timer   timer   timer   timer   timer   timer   timer   r12c10  r12c11";
+    transition: background-color 120s;
+    background-color: rgba(198, 207, 212, 0.9);
+    border: 10px solid rgba(0, 0, 0, 0.2);
 }
+
+.left, .right {
+    position: absolute;
+    width: 50%;
+    height: 90%;
+    /* border: 0.1px solid #73AD21; */
+}
+
+.right {
+    top: 10%;
+    right: 0;
+}
+
+.left {
+    top: 10%;
+    left: 0;
+}
+
 
 @keyframes shadow-pulse
 {
@@ -26,10 +53,9 @@ body {
         box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
     }
     100% {
-        box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
+        box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
     }
 }
-
 
 div {
     display: flex;
@@ -40,15 +66,31 @@ div {
     /* border: 1px solid gray; */
 }
 
+#timer {
+    width: 100% !important;
+    padding: 0;
+    margin: 0;
+}
 
 .block {
     background-color: rgba(77,182,172,0.9);
-    border-radius: 2rem;
-    height: 5rem;
-    width: 5rem;
-    margin: 0 auto;
+    border-radius: 0.5rem;
     color: rgba(242, 243, 248, 1.0);
     animation: shadow-pulse 2s infinite;
+}
+
+.selectedBlock {
+    background-color: rgba(139,195,74,0.9);
+    border-radius: 0.5rem;
+    color: rgba(242, 243, 248, 1.0);
+    animation: shadow-pulse 0.8s infinite;
+}
+
+.losingBlock {
+    background-color: rgba(239,83,80,0.9);
+    border-radius: 0.5rem;
+    color: rgba(242, 243, 248, 1.0);
+    animation: shadow-pulse 0.8s infinite;
 }
 
 .start {
@@ -58,12 +100,33 @@ div {
 .end {
     background-color: rgba(239,83,80,0.9);
 }
+
 .slot {
-    margin: 0 auto;
-    background-color: rgba(238,238,238, 0.9);
-    width: 4.5rem;
-    height: 4.5rem;
-    border-radius: 3rem;
+    background-color: rgba(217, 220, 223, 0.4);
+    border-radius: 1.3rem;
+    color: rgba(43, 42, 42, 0.6);
+}
+.positiveSlot {
+    background-color: rgba(217, 220, 223, 0.4);
+    color: rgba(46, 125, 50, 1);
+    border-radius: 1.3rem;
+}
+
+.negativeSlot {
+    background-color: rgba(217, 220, 223, 0.4);
+    color: rgba(183, 28, 28, 0.8);
+    border-radius: 1.3rem;
+}
+
+.selectedSlot {
+    color: rgba(242, 243, 248, 1.0);
+    background-color: rgba(0, 77, 64, 0.8);
+    border-radius: 1.3rem;
+}
+
+.losingSlot {
+    background-color: rgba(239,83,80,0.9);
+    border-radius: 1.3rem;
 }
 
 #r0c1 {
@@ -71,6 +134,11 @@ div {
 }
 header {
     grid-area: header;
+    font-family: 'Raleway', sans-serif;
+    font-size: 5rem;
+    font-variant: small-caps;
+    color: rgba(242, 243, 248, 0.8);
+    padding-bottom: 0.5rem;
 }
 #r0c2 {
     grid-area: r0c2;
@@ -467,6 +535,9 @@ header {
 }
 #r12c1 {
     grid-area: r12c1;
+}
+#timer {
+    grid-area: timer;
 }
 #r12c2 {
     grid-area: r12c2;

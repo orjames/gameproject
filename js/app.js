@@ -4,11 +4,12 @@ var blockValues = [];
 var slotIds = [1,2,4,5,6,8,9,11,12,14,15,16,18,19,21,22,24,25,26,28,29,31,32,34,35,36];
 var slotValues = [];
 var clickCount = 0;
-var boardLocation = 0;
 var currentBlock = 0;
 var slot1 = 0;
 var i = 0;
 var j = 0;
+var currentValue = 0;
+var gameOver = false;
 
 // generates a random number between and including 0 to 1
 function randomNumber0Through1() {
@@ -354,8 +355,12 @@ function initialize() {
     blockValues[i] = randomNumber0Through9();
     currentBlock = blockValues[i];
     document.getElementById(blockIds[i].toString()).textContent = blockValues[i];
+
 }
-initialize();
+
+function colorBackground() {
+    document.querySelector('main').style.backgroundColor = 'rgba(183, 28, 28, 0.8)';
+}
 
 function generateBlocks() {
     while (i < blockIds.length - 1) {
@@ -391,39 +396,149 @@ function generateBlocks() {
         document.getElementById(blockIds[i].toString()).textContent = blockValues[i];
     }
 }
-generateBlocks();
 
-function colorSlots() {
-    
+
+// colors the text of each slot based on if its negative(red) or positive(green)
+function colorTextOfSlots() {
+    console.log('slotValues array ', slotValues);
+    let currentIndex = 0;
+    for (var value of slotValues) {
+        if (value > 0) { // if its a positive number
+            // console.log('coloring text, current Index is ', currentIndex);
+            document.getElementById(slotIds[currentIndex].toString()).className = 'positiveSlot';
+            currentIndex++;
+        } else if (value < 0) {
+            // console.log('coloring text, current Index is ', currentIndex);
+            document.getElementById(slotIds[currentIndex].toString()).className = 'negativeSlot';
+            currentIndex++;
+        } else {
+            currentIndex++;
+        }
+    }
 }
 
+var timeLeft = 60;
+var timerBar = setInterval( function() {
+    document.getElementById('timerBar').max = 60;
+    document.getElementById("timerBar").value = 60 - timeLeft;
+    timeLeft -= 0.1;
+    if(timeLeft <= 0) {
+    updateYouLost();
+    clearInterval(timerBar);
+    }
+}, 100);
 
 // page loaded assigning variables to each block/slot on the board to change it as the game progresses
-// document.addEventListener('DOMContentLoaded', function() {
-//     console.log('up and running');
-// })
+// assigning the currentValue to the starting block value
+// adding event listeners for single and double clicks
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('up and running');
+    initialize();
+    setTimeout(colorBackground, 10);
+    generateBlocks();
+    colorTextOfSlots();
+    currentValue = blockValues[0];
+    document.getElementById('singleClick').addEventListener('click', singleClick);
+    document.getElementById('doubleClick').addEventListener('click', doubleClick);
+});
+
+function updateYouLost() {
+    if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
+        document.getElementById(clickCount.toString()).className = 'losingSlot';
+    } else if ( blockIds.indexOf(board[clickCount]) > -1 ) {  // you're on a block
+        document.getElementById(clickCount.toString()).className = 'losingBlock';
+    }
+    gameOver = true;
+    document.querySelector('header').textContent = 'you lost';
+}
+
+function checkIfLost() {
+    if (currentValue > 9) {
+        console.log('exceeded 9 in positive double digits, lost');
+        updateYouLost();
+    } else if (currentValue < -9 ) {
+        console.log('less than negative 9, exceeded double digits, lost');
+        updateYouLost();
+    } else if ( (blockIds.indexOf(board[clickCount]) > -1) && (currentValue != blockValues[blockIds.indexOf(clickCount)])) {
+        console.log('current value is ', currentValue);
+        console.log('currrent block value is ', blockValues[blockIds.indexOf(clickCount)]);
+        console.log('current value doesnt match block value, you must match on blocks');
+        updateYouLost();
+    } else if ( ( slotIds.indexOf(board[clickCount]) > -1 ) && ( blockIds.indexOf(board[clickCount-1]) > -1 ) ) { // you're in a slot and the previous space is a block
+        console.log('knows youre in a slot after a block');
+        console.log('it thinks current value is ', currentValue);
+        console.log('it thinks the slot value is ', slotValues[slotIds.indexOf(clickCount)]);
+        console.log('it thinks current value minus slot value is (this should be previous block value ', (currentValue -  slotValues[slotIds.indexOf(clickCount)]));
+        console.log('it thinks the previous block value is ', blockValues[blockIds.indexOf(clickCount-1)]);
+        if ( (currentValue -  slotValues[slotIds.indexOf(clickCount)]) !=  blockValues[blockIds.indexOf(clickCount-1)] ) {       
+            console.log('you skipped over a block, lost');
+            updateYouLost();
+        }
+    } else if ((board.length - 1) === clickCount) {
+        console.log('you won');
+    }
+}
+
+function emptyPreviouslyActiveSpace() {
+    if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
+        document.getElementById(clickCount.toString()).className = 'slot';
+        document.getElementById(clickCount.toString()).textContent = '';
+    } else if ( blockIds.indexOf(board[clickCount]) > -1 ) { // you're on a block
+        document.getElementById(clickCount.toString()).className = 'block';
+        document.getElementById(clickCount.toString()).textContent = '';
+    }
+}
+
+function fillActiveSpace() {
+    if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
+        document.getElementById(clickCount.toString()).className = 'selectedSlot';
+        document.getElementById(clickCount.toString()).textContent = currentValue;
+    } else if ( blockIds.indexOf(board[clickCount]) > -1 ) {  // you're on a block
+        document.getElementById(clickCount.toString()).className = 'selectedBlock';
+        document.getElementById(clickCount.toString()).textContent = currentValue;
+    }
+}
 
 function singleClick() {
-    console.log('registered single click, count is '+clickCount);
-    var currentElement = document.getElementById(clickCount.toString());
-    currentElement.style.backgroundColor = 'white';
-    clickCount++;
-    currentElement = document.getElementById(clickCount.toString());
-    currentElement.style.backgroundColor = 'green';
+    if (!gameOver) {
+        emptyPreviouslyActiveSpace();
+        clickCount++;
+        console.log('registered single click, count is ' + clickCount);
+        if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
+            currentValue = currentValue + slotValues[slotIds.indexOf(clickCount)];
+            console.log('in single click, slots, currentValue is', currentValue);
+            fillActiveSpace();
+            checkIfLost();
+        } else if ( blockIds.indexOf(board[clickCount]) > -1 ) { // you're on a block
+            console.log('in single click, blocks, currentValue is', currentValue);
+            fillActiveSpace();
+            checkIfLost();
+        } else {
+            console.log("error");
+        }
+    } else {
+        console.log('game is over, cant click');
+    }
 }
 
 function doubleClick() {
-    console.log('registered double click, count is '+clickCount);
-    var currentElement = document.getElementById(clickCount.toString());
-    currentElement.style.backgroundColor = 'white';
-    clickCount += 2;
-    currentElement = document.getElementById(clickCount.toString());
-    currentElement.style.backgroundColor = 'green';
+    if (!gameOver) {
+        emptyPreviouslyActiveSpace();
+        clickCount += 2;
+        console.log('registered double click, count is '+ clickCount);
+        if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
+            currentValue = currentValue + slotValues[slotIds.indexOf(clickCount)];
+            console.log('in double click, slots, currentValue is', currentValue);
+            fillActiveSpace();
+            checkIfLost();
+        } else if ( blockIds.indexOf(board[clickCount]) > -1 ) { // you're on a block
+            console.log('in double click, blocks, currentValue is', currentValue);
+            fillActiveSpace();
+            checkIfLost();
+        } else {
+            console.log("error");
+        }
+    } else {
+        console.log('game is over, cant click');
+    }
 }
-
-
-// window.document.addEventListener('click', singleClick());
-// window.document.addEventListener('dblclick', doubleClick());
-
-console.log('blockValues ' + blockValues);
-console.log('slotValues ' + slotValues);
