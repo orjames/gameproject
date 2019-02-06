@@ -58,6 +58,8 @@ function isABlock (nextLocation) {
 
 function generateTwoCorrectSlotsOfTwo() {
     console.log('two correct slots will be made');
+    currentBlock = blockValues[i]; // TESTIING
+    console.table({blockValues});
     firstCorrect = randomNumberNeg9Through9();
     if ((currentBlock + firstCorrect) >= -9 && (currentBlock + firstCorrect) <= 9) {
         console.log('firstCorrect is initally ' + firstCorrect);
@@ -90,11 +92,12 @@ function generateTwoCorrectSlotsOfTwo() {
     }
     nextBlock = currentBlock + firstCorrect + secondCorrect;
     console.log('nextBlock is ' + nextBlock);
-    
 }
 
 function generateOneCorrectSlotOfTwo() {
     console.log('one correct slot will be made');
+    currentBlock = blockValues[i]; // TESTIING
+    console.table({blockValues});
     firstOrSecondSlot = randomNumber0Through1();
     if (firstOrSecondSlot === 0) {
         console.log('one correct, and that correct is first slot');
@@ -169,7 +172,6 @@ function generateOneCorrectSlotOfThree() {
             
         }
         j++;
-        blockValues[i] = currentBlock + firstCorrect;
         nextBlock = blockValues[i];
         console.log('nextBlock is ' + nextBlock);
         incorrectSlotValue2 = randomNumberNeg9Through9();
@@ -383,10 +385,10 @@ function generateBlocks() {
             if (routeNumberOutOfFive === 1) { // one correct slot will be picked
                 generateOneCorrectSlotOfThree();
             }
-            else if (routeNumberOutOfFive > 1 && routeNumberOutOfFive < 5 ) {
+            else if (routeNumberOutOfFive > 1 && routeNumberOutOfFive < 5 ) { // two correct slots will be made
                 generateTwoCorrectSlotsOfThree();
             }
-            else if (routeNumberOutOfFive === 5) {
+            else if (routeNumberOutOfFive === 5) { // three correct slots will be made
                 generateThreeCorrectSlotsOfThree();
             }
         }
@@ -400,7 +402,7 @@ function generateBlocks() {
 
 // colors the text of each slot based on if its negative(red) or positive(green)
 function colorTextOfSlots() {
-    console.log('slotValues array ', slotValues);
+    console.table({slotValues, slotIds, currentValue, blockValues, blockIds});
     let currentIndex = 0;
     for (var value of slotValues) {
         if (value > 0) { // if its a positive number
@@ -417,10 +419,10 @@ function colorTextOfSlots() {
     }
 }
 
-var timeLeft = 60;
+var timeLeft = 80;
 var timerBar = setInterval( function() {
-    document.getElementById('timerBar').max = 60;
-    document.getElementById("timerBar").value = 60 - timeLeft;
+    document.getElementById('timerBar').max = 80;
+    document.getElementById("timerBar").value = 80 - timeLeft;
     timeLeft -= 0.1;
     if(timeLeft <= 0) {
     updateYouLost();
@@ -460,7 +462,6 @@ function checkIfLost() {
         console.log('less than negative 9, exceeded double digits, lost');
         updateYouLost();
     } else if ( (blockIds.indexOf(board[clickCount]) > -1) && (currentValue != blockValues[blockIds.indexOf(clickCount)])) {
-        console.log('current value is ', currentValue);
         console.log('currrent block value is ', blockValues[blockIds.indexOf(clickCount)]);
         console.log('current value doesnt match block value, you must match on blocks');
         updateYouLost();
