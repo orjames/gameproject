@@ -13,6 +13,8 @@ var gameOver = false;
 var timeLeft = 80;
 var levelCount = 1;
 var scoreCount = 0;
+var instuctionButtonCount = 0;
+var highScoreEl;
 
 // generates a random number between and including 0 to 1
 function randomNumber0Through1() {
@@ -378,6 +380,7 @@ function initialize() {
 }
 
 function initializeNextLevel () {
+    document.querySelector('header').style.color = 'rgba(77,182,172,1)';
     document.getElementById('timerBar').style.display = 'flex';
     document.getElementById('nextLevelButton').style.display = 'none';
     document.getElementById('singleClick').style.display = 'flex';
@@ -390,7 +393,7 @@ function initializeNextLevel () {
 }
 
 function colorBackground() {
-    document.querySelector('main').style.backgroundColor = 'rgba(183, 28, 28, 0.8)';
+    // document.querySelector('main').style.backgroundColor = 'rgba(183, 28, 28, 0.8)';
 }
 
 function generateBlocks() {
@@ -465,9 +468,25 @@ function timerFunction () {
 function startGame() {
     initialize();
     startTimer();
-    document.getElementById('thirdStartScreen').style.display = 'none';
+    document.getElementById('startScreen0').style.display = 'none';
+    document.getElementById('startScreen1').style.display = 'none';
+    document.getElementById('startScreen2').style.display = 'none';
+    document.getElementById('startScreen3').style.display = 'none';
+    document.getElementById('startScreen4').style.display = 'none';
+    document.getElementById('startScreen5').style.display = 'none';
     document.getElementById('singleClick').style.display = 'flex';
     document.getElementById('doubleClick').style.display = 'flex';
+}
+
+function moveToNextInstruction() {
+    instuctionButtonCount++;
+    document.getElementById('startScreen0').style.display = 'none';
+    document.getElementById('startScreen1').style.display = 'none';
+    document.getElementById('startScreen2').style.display = 'none';
+    document.getElementById('startScreen3').style.display = 'none';
+    document.getElementById('startScreen4').style.display = 'none';
+    document.getElementById('startScreen5').style.display = 'none';
+    document.getElementById(`startScreen${instuctionButtonCount}`).style.display = 'flex';
 }
 
 // page loaded assigning variables to each block/slot on the board to change it as the game progresses
@@ -479,7 +498,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('singleClick').addEventListener('click', singleClick);
     document.getElementById('doubleClick').addEventListener('click', doubleClick);
     document.getElementById('nextLevelButton').addEventListener('click', initializeNextLevel);
-    document.getElementById('thirdStartButton').addEventListener('click', startGame);
+    document.getElementById('skipStartButton').addEventListener('click', startGame);
+    document.getElementById('zeroStartButton').addEventListener('click', moveToNextInstruction);
+    document.getElementById('firstStartButton').addEventListener('click', moveToNextInstruction);
+    document.getElementById('secondStartButton').addEventListener('click', moveToNextInstruction);
+    document.getElementById('thirdStartButton').addEventListener('click', moveToNextInstruction);
+    document.getElementById('fourthStartButton').addEventListener('click', moveToNextInstruction);
+    document.getElementById('fifthStartButton').addEventListener('click', startGame);
 });
 
 function updateYouLost() {
@@ -493,6 +518,7 @@ function updateYouLost() {
     scoreCount = 0;
     timeLeft = 80;
     document.querySelector('header').textContent = 'you lost';
+    document.querySelector('header').style.color = 'rgba(239,83,80,0.9)';
     document.getElementById('score').textContent = ` ${scoreCount}`; 
     clearInterval(setTimer);
     document.getElementById('timerBar').style.display = 'none';
@@ -507,6 +533,7 @@ function updateYouLost() {
 function updateYouWon() {
     gameOver = true;
     document.querySelector('header').textContent = 'you won';
+    document.querySelector('header').style.color = 'rgba(139,195,74,0.9)';
     levelCount++;
     clearInterval(setTimer);
     timeLeft = 80 - ((levelCount-1)*5);

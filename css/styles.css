@@ -35,8 +35,12 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
     margin: auto;
     position: absolute;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.3rem;
+    color: rgba(17, 17, 17, 0.9);
     top: 0; left: 0; right: 0;
     padding: 1.1rem;
     background-color:  rgba(181, 187, 189, 0.9);
@@ -44,27 +48,57 @@ main {
     height: 750px;
     border: 10px solid rgba(0, 0, 0, 0.2);
 }
-
-#firstStartScreen {
-    display: none;
+img {
+    width: 280px;
+    height: auto;
+    border: 5px solid rgba(0, 0, 0, 0.2);
+    margin-bottom: 0.1rem; 
 }
-#secondStartScreen {
-    display: none;
+#fifthImage {
+    border-bottom: 9px solid rgba(0, 0, 0, 0.2);
 }
-#thirdStartScreen {
+#startScreen0 {
     display: flex;
+    font-size: 6rem;
+    color: rgba(77,182,172,1);
+    font-variant: small-caps;
+    text-shadow: 3px 5px rgba(0,0,0,1);
 }
-p {
+#startScreen1 {
+    display: none;
+}
+#startScreen2 {
+    display: none;
+}
+#startScreen3 {
+    display: none;
+}
+#startScreen4 {
+    display: none;
+}
+#startScreen5 {
+    display: none;
+    font-size: 1.4rem;
+}
+.instructionsButton {
+    margin-top: 10px;
+    padding: 0.1rem;
+    font-size: 1.5rem;
+    width: 86%;
+    background-color: rgba(159, 161, 163, 0.6);
     font-family: 'Raleway', sans-serif;
+    color: rgba(242, 243, 248, 1.0);
+    font-size: 1.7rem;
+    letter-spacing: 0.2rem;
+    text-shadow: 2px 2px rgb(88, 90, 90,0.6);
 }
-
 .left, .right {
     display: none;
     position: absolute;
     top: 10%;
     width: 50%;
     height: 90%;
-    border: 1px solid rgba(0, 0, 0, 0.6);
+    /* border: 1px solid rgba(0, 0, 0, 0.6); */
 }
 
 .right {
@@ -105,6 +139,7 @@ div {
 #timerBar {
     /* background-color: rgba(242, 243, 248, 1.0); */
     width: 100% !important;
+    color: rgba(77,182,172,1);
 }
 
 #nextLevelButton {
@@ -117,6 +152,7 @@ div {
     color: rgba(242, 243, 248, 1.0);
     font-size: 1.7rem;
     letter-spacing: 0.2rem;
+    text-shadow: 2px 2px rgb(88, 90, 90,0.6);
 }
 
 #nextLevelButton:active {
@@ -186,10 +222,13 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: rgba(77,182,172,1);
+    font-variant: small-caps;
+    text-shadow: 2px 2px rgb(88, 90, 90);
     font-family: 'Raleway', sans-serif;
     font-size: 4.5rem;
     font-variant: small-caps;
-    color: rgba(242, 243, 248, 0.9);
+    /* color: rgba(242, 243, 248, 0.9); */
     padding-bottom: 0.5rem;
     
 }
