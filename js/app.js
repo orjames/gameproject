@@ -107,18 +107,21 @@ function generateOneCorrectSlotOfTwo() {
         firstCorrect = randomNumberNeg9Through9();
         if ((currentBlock+firstCorrect) >= 0 && (currentBlock+firstCorrect) <= 9) {
             console.log('firstCorrect is initally ' + firstCorrect);
-            slotValues[j] = firstCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
+            // slotValues[j] = firstCorrect;
+            // document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+            // j++;
         } else {
             while ((currentBlock + firstCorrect) < 0 || (currentBlock + firstCorrect) > 9) {
                 firstCorrect = randomNumberNeg9Through9();
                 console.log('(in while loop) firstCorrect is ' + firstCorrect);
             }
-            slotValues[j] = firstCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
+            // slotValues[j] = firstCorrect;
+            // document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+            // j++;
         }
+        slotValues[j] = firstCorrect;
+        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+        j++;
         nextBlock = currentBlock + firstCorrect;
         console.log('nextBlock is ' + nextBlock);
         incorrectSlotValue1 = randomNumberNeg9Through9();
@@ -130,20 +133,22 @@ function generateOneCorrectSlotOfTwo() {
     firstCorrect = randomNumberNeg9Through9();
     if ((currentBlock+firstCorrect) >= 0 && (currentBlock+firstCorrect) <= 9) {
         console.log('firstCorrect is initally ' + firstCorrect);
-        slotValues[j+1] = firstCorrect;
-        document.getElementById(slotIds[j+1].toString()).textContent = slotValues[j+1];
-        j++;
+        // slotValues[j+1] = firstCorrect;
+        // document.getElementById(slotIds[j+1].toString()).textContent = slotValues[j+1];
+        // j++;
     } else {
         while ((currentBlock + firstCorrect) < 0 || (currentBlock + firstCorrect) > 9) {
             firstCorrect = randomNumberNeg9Through9();
             console.log('(in while loop) firstCorrect is ' + firstCorrect);
         }
-        slotValues[j+1] = firstCorrect;
-        document.getElementById(slotIds[j+1].toString()).textContent = slotValues[j+1];
-        j++;
+        // slotValues[j+1] = firstCorrect;
+        // document.getElementById(slotIds[j+1].toString()).textContent = slotValues[j+1];
+        // j++;
     }
+    slotValues[j+1] = firstCorrect;
+    document.getElementById(slotIds[j+1].toString()).textContent = slotValues[j+1];
+    j++;
     nextBlock = currentBlock + firstCorrect;
-    
     console.log('nextBlock is ' + nextBlock);
     incorrectSlotValue1 = randomNumberNeg9Through9();
     slotValues[j-1] = incorrectSlotValue1;
@@ -172,10 +177,9 @@ function generateOneCorrectSlotOfThree() {
             }
             slotValues[j] = firstCorrect;
             document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            
         }
         j++;
-        nextBlock = blockValues[i];
+        nextBlock = currentBlock + firstCorrect;
         console.log('nextBlock is ' + nextBlock);
         incorrectSlotValue2 = randomNumberNeg9Through9();
         slotValues[j] = incorrectSlotValue2;
@@ -431,11 +435,9 @@ function colorTextOfSlots() {
     let currentIndex = 0;
     for (var value of slotValues) {
         if (value > 0) { // if its a positive number
-            // console.log('coloring text, current Index is ', currentIndex);
             document.getElementById(slotIds[currentIndex].toString()).className = 'positiveSlot';
             currentIndex++;
         } else if (value < 0) {
-            // console.log('coloring text, current Index is ', currentIndex);
             document.getElementById(slotIds[currentIndex].toString()).className = 'negativeSlot';
             currentIndex++;
         } else {
@@ -460,26 +462,46 @@ function timerFunction () {
     }
 }
 
+function startGame() {
+    initialize();
+    startTimer();
+    document.getElementById('thirdStartScreen').style.display = 'none';
+    document.getElementById('singleClick').style.display = 'flex';
+    document.getElementById('doubleClick').style.display = 'flex';
+}
+
 // page loaded assigning variables to each block/slot on the board to change it as the game progresses
 // assigning the currentValue to the starting block value
 // adding event listeners for single and double clicks
 document.addEventListener('DOMContentLoaded', function() {
     console.log('up and running');
     initialize();
-    startTimer();
     document.getElementById('singleClick').addEventListener('click', singleClick);
     document.getElementById('doubleClick').addEventListener('click', doubleClick);
     document.getElementById('nextLevelButton').addEventListener('click', initializeNextLevel);
+    document.getElementById('thirdStartButton').addEventListener('click', startGame);
 });
 
 function updateYouLost() {
-    // if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
-    //     document.getElementById(clickCount.toString()).className = 'losingSlot';
-    // } else if ( blockIds.indexOf(board[clickCount]) > -1 ) {  // you're on a block
-    //     document.getElementById(clickCount.toString()).className = 'losingBlock';
-    // }
-    // gameOver = true;
-    // document.querySelector('header').textContent = 'you lost';
+    if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
+        document.getElementById(clickCount.toString()).className = 'losingSlot';
+    } else if ( blockIds.indexOf(board[clickCount]) > -1 ) {  // you're on a block
+        document.getElementById(clickCount.toString()).className = 'losingBlock';
+    }
+    gameOver = true;
+    levelCount = 1;
+    scoreCount = 0;
+    timeLeft = 80;
+    document.querySelector('header').textContent = 'you lost';
+    document.getElementById('score').textContent = ` ${scoreCount}`; 
+    clearInterval(setTimer);
+    document.getElementById('timerBar').style.display = 'none';
+    document.getElementById('nextLevelButton').style.display = 'flex';
+    document.getElementById('nextLevelButton').textContent = `restart?`;
+    document.getElementById('singleClick').style.display = 'none';
+    document.getElementById('doubleClick').style.display = 'none';
+    document.querySelector('main').style.transition = 'auto';
+    document.querySelector('main').style.backgroundColor = 'rgba(181, 187, 189, 0.9)';
 }
 
 function updateYouWon() {
