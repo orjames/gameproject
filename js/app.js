@@ -15,6 +15,10 @@ var levelCount = 1;
 var scoreCount = 0;
 var instuctionButtonCount = 0;
 var highScoreEl;
+var moveToSlotSound;
+var moveToBlockSound;
+var loseSound;
+var winSound;
 
 // generates a random number between and including 0 to 1
 function randomNumber0Through1() {
@@ -505,6 +509,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('thirdStartButton').addEventListener('click', moveToNextInstruction);
     document.getElementById('fourthStartButton').addEventListener('click', moveToNextInstruction);
     document.getElementById('fifthStartButton').addEventListener('click', startGame);
+    highScoreEl = document.getElementById('highScore');
+    if (!localStorage.getItem('highScore')) {
+        localStorage.setItem('highScore', 0);
+    } else {
+        highScoreEl.textContent = localStorage.getItem('highScore');
+    }
+    moveToSlotSound = new sound();
+    moveToBlockSound = new sound();
+    loseSound = new sound();
+    winSound = new sound();
 });
 
 function updateYouLost() {
@@ -589,6 +603,9 @@ function fillActiveSpace() {
         document.getElementById(clickCount.toString()).textContent = currentValue;
     } else if ( blockIds.indexOf(board[clickCount]) > -1 ) {  // you're on a block
         scoreCount++; // your score has increased
+        if (scoreCount > localStorage.getItem('highScore')) {
+            localStorage.setItem('highScore', scoreCount);
+        }
         document.getElementById('score').textContent = ` ${scoreCount}`; // show your score on the game
         document.getElementById(clickCount.toString()).className = 'selectedBlock';
         document.getElementById(clickCount.toString()).textContent = currentValue;
