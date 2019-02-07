@@ -1,5 +1,5 @@
 body {
-    background-color: rgba(138, 141, 143, 0.9);
+    background-color: rgba(165, 180, 190, 0.9);
 }
 
 main {
@@ -9,10 +9,11 @@ main {
     width: 375px;
     height: 750px;
     margin: 0 auto;
-    grid-template-rows:     0fr 20fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 15fr;
+    grid-template-rows:     5fr 10fr 5fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 15fr;
     grid-template-columns:  2fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 2fr 0fr;
-    grid-template-areas:    "r0c1   r0c2    r0c3    r0c4    r0c5    r0c6    r0c7    r0c8    r0c9    r0c10   r0c11"
-                            "r1c1   header  header  header  header  header  header  header  header    r1c10   r1c11"
+    grid-template-areas:    "r00c1  header  header  header  header  header  header  r00c8   r00c9   r00c10  r00c11"
+                            "r0c1   header  header  header  header  header  header  score   score   r0c10   r0c11"
+                            "r1c1   header  header  header  header  header  header  r1c8    r1c9    r1c10   r1c11"
                             "r2c1   r2c2    r2c3    r2c4    r2c5    r2c6    r2c7    r2c8    r2c9    r2c10   r2c11"
                             "r3c1   r3c2    r3c3    r3c4    r3c5    r3c6    r3c7    r3c8    r3c9    r3c10   r3c11"
                             "r4c1   r4c2    r4c3    r4c4    r4c5    r4c6    r4c7    r4c8    r4c9    r4c10   r4c11"
@@ -23,17 +24,26 @@ main {
                             "r9c1   r9c2    r9c3    r9c4    r9c5    r9c6    r9c7    r9c8    r9c9    r9c10   r9c11"
                             "r10c1  r10c2   r10c3   r10c4   r10c5   r10c6   r10c7   r10c8   r10c9   r10c10  r10c11"
                             "r11c1  r11c2   r11c3   r11c4   r11c5   r11c6   r11c7   r11c8   r11c9   r11c10  r11c11"
-                            "r12c1  timer   timer   timer   timer   timer   timer   timer   timer   r12c10  r12c11";
-    transition: background-color 120s;
-    background-color: rgba(198, 207, 212, 0.9);
+                            "r12c1  timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   r12c10  r12c11";
+    transition: background-color 10s;
+    background-color: rgba(181, 187, 189, 0.9);
     border: 10px solid rgba(0, 0, 0, 0.2);
+}
+
+#startScreen {
+    display: none;
+    position: absolute;
+    background-color:  rgba(181, 187, 189, 0.9);
+    width: 375px;
+    height: 750px;
+    border: 1px solid black;
 }
 
 .left, .right {
     position: absolute;
     width: 50%;
     height: 90%;
-    /* border: 0.1px solid #73AD21; */
+    border: 0.1px solid #73AD21;
 }
 
 .right {
@@ -46,14 +56,13 @@ main {
     left: 0;
 }
 
-
 @keyframes shadow-pulse
 {
     0% {
-        box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 0 0px rgba(41, 41, 41, 0.7);
     }
     100% {
-        box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+        box-shadow: 0 0 0 15px rgba(41, 41, 41, 0);
     }
 }
 
@@ -63,34 +72,56 @@ div {
     justify-content: center;
     font-size: 1.6rem;
     font-weight: 1000;
-    /* border: 1px solid gray; */
 }
 
-#timer {
-    width: 100% !important;
+#timerDiv {
+    grid-area: timerDiv;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0;
     margin: 0;
+}
+
+#timerBar {
+    /* background-color: rgba(242, 243, 248, 1.0); */
+    width: 100% !important;
+}
+
+#nextLevelButton {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important;
+    background-color: rgba(159, 161, 163, 0.6);
+    font-family: 'Raleway', sans-serif;
+    color: rgba(242, 243, 248, 1.0);
+    font-size: 1.7rem;
+    letter-spacing: 0.2rem;
+}
+
+#nextLevelButton:active {
+    background-color: rgba(77,182,172,0.9);
 }
 
 .block {
     background-color: rgba(77,182,172,0.9);
     border-radius: 0.5rem;
     color: rgba(242, 243, 248, 1.0);
-    animation: shadow-pulse 2s infinite;
 }
 
 .selectedBlock {
     background-color: rgba(139,195,74,0.9);
     border-radius: 0.5rem;
     color: rgba(242, 243, 248, 1.0);
-    animation: shadow-pulse 0.8s infinite;
+    animation: shadow-pulse 1s infinite;
 }
 
 .losingBlock {
     background-color: rgba(239,83,80,0.9);
     border-radius: 0.5rem;
     color: rgba(242, 243, 248, 1.0);
-    animation: shadow-pulse 0.8s infinite;
+    animation: shadow-pulse 1s infinite;
 }
 
 .start {
@@ -120,26 +151,48 @@ div {
 
 .selectedSlot {
     color: rgba(242, 243, 248, 1.0);
-    background-color: rgba(0, 77, 64, 0.8);
+    background-color: rgba(139,195,74,0.9);
     border-radius: 1.3rem;
+    animation: shadow-pulse 0.9s infinite;
 }
 
 .losingSlot {
     background-color: rgba(239,83,80,0.9);
     border-radius: 1.3rem;
+    animation: shadow-pulse 0.9s infinite;
 }
 
 #r0c1 {
     grid-area: r0c1;
 }
+
 header {
     grid-area: header;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'Raleway', sans-serif;
-    font-size: 5rem;
+    font-size: 4.5rem;
     font-variant: small-caps;
-    color: rgba(242, 243, 248, 0.8);
+    color: rgba(242, 243, 248, 0.9);
     padding-bottom: 0.5rem;
+    
 }
+
+#score {
+    grid-area: score;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    color: rgba(242, 243, 248, 0.9);
+    border: 5px solid rgba(242, 243, 248, 0.8);
+    margin-left: 1.0rem;
+}
+
 #r0c2 {
     grid-area: r0c2;
 }
@@ -535,9 +588,6 @@ header {
 }
 #r12c1 {
     grid-area: r12c1;
-}
-#timer {
-    grid-area: timer;
 }
 #r12c2 {
     grid-area: r12c2;

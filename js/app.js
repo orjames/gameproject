@@ -10,7 +10,9 @@ var i = 0;
 var j = 0;
 var currentValue = 0;
 var gameOver = false;
-var levelCount = 0;
+var timeLeft = 80;
+var levelCount = 1;
+var scoreCount = 0;
 
 // generates a random number between and including 0 to 1
 function randomNumber0Through1() {
@@ -353,12 +355,34 @@ function generateThreeCorrectSlotsOfThree() {
 }
 
 function initialize() {
-    gameOver = false;
+    slotValues = [];
+    clickCount = 0;
+    currentBlock = 0;
+    slot1 = 0;
     i = 0;
     j = 0;
+    currentValue = 0;
+    gameOver = false;
     blockValues[i] = randomNumber0Through9();
     currentBlock = blockValues[i];
     document.getElementById(blockIds[i].toString()).textContent = blockValues[i];
+    document.getElementById(clickCount.toString()).className = 'selectedBlock';
+    setTimeout(colorBackground, 10);
+    generateBlocks();
+    colorTextOfSlots();
+    currentValue = blockValues[0];
+}
+
+function initializeNextLevel () {
+    document.getElementById('timerBar').style.display = 'flex';
+    document.getElementById('nextLevelButton').style.display = 'none';
+    document.getElementById('singleClick').style.display = 'flex';
+    document.getElementById('doubleClick').style.display = 'flex';
+    document.getElementById(clickCount.toString()).className = 'block';
+    document.querySelector('main').style.transition = 'background-color 10s';
+    document.querySelector('header').textContent = 'intejump';
+    startTimer();
+    initialize();
 }
 
 function colorBackground() {
@@ -420,18 +444,21 @@ function colorTextOfSlots() {
     }
 }
 
-var timeLeft = 80;
-var timerBar = setInterval( function() {
-    document.getElementById('timerBar').max = 80;
-    document.getElementById("timerBar").value = 80 - timeLeft;
+function startTimer() {
+    setTimer = setInterval(timerFunction, 100);
+}
+
+function timerFunction () {
+    document.getElementById('timerBar').max = (80 - (levelCount-1)*5);
+    document.getElementById('timerBar').value = (80 - (levelCount-1)*5) - timeLeft;
     timeLeft -= 0.1;
     if(timeLeft <= 0) {
     updateYouLost();
-    clearInterval(timerBar);
+    clearInterval(setTimer);
     } if (gameOver) {
-        clearInterval(timerBar);
+        clearInterval(setTimer);
     }
-}, 100);
+}
 
 // page loaded assigning variables to each block/slot on the board to change it as the game progresses
 // assigning the currentValue to the starting block value
@@ -439,28 +466,35 @@ var timerBar = setInterval( function() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('up and running');
     initialize();
-    setTimeout(colorBackground, 10);
-    generateBlocks();
-    colorTextOfSlots();
-    currentValue = blockValues[0];
+    startTimer();
     document.getElementById('singleClick').addEventListener('click', singleClick);
     document.getElementById('doubleClick').addEventListener('click', doubleClick);
+    document.getElementById('nextLevelButton').addEventListener('click', initializeNextLevel);
 });
 
 function updateYouLost() {
-    if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
-        document.getElementById(clickCount.toString()).className = 'losingSlot';
-    } else if ( blockIds.indexOf(board[clickCount]) > -1 ) {  // you're on a block
-        document.getElementById(clickCount.toString()).className = 'losingBlock';
-    }
-    gameOver = true;
-    document.querySelector('header').textContent = 'you lost';
+    // if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
+    //     document.getElementById(clickCount.toString()).className = 'losingSlot';
+    // } else if ( blockIds.indexOf(board[clickCount]) > -1 ) {  // you're on a block
+    //     document.getElementById(clickCount.toString()).className = 'losingBlock';
+    // }
+    // gameOver = true;
+    // document.querySelector('header').textContent = 'you lost';
 }
 
 function updateYouWon() {
     gameOver = true;
     document.querySelector('header').textContent = 'you won';
     levelCount++;
+    clearInterval(setTimer);
+    timeLeft = 80 - ((levelCount-1)*5);
+    document.getElementById('timerBar').style.display = 'none';
+    document.getElementById('nextLevelButton').style.display = 'flex';
+    document.getElementById('nextLevelButton').textContent = `to level ${levelCount}?`;
+    document.getElementById('singleClick').style.display = 'none';
+    document.getElementById('doubleClick').style.display = 'none';
+    document.querySelector('main').style.transition = 'auto';
+    document.querySelector('main').style.backgroundColor = 'rgba(181, 187, 189, 0.9)';
 }
 
 function checkIfLost() {
@@ -484,7 +518,7 @@ function checkIfLost() {
             console.log('you skipped over a block, lost');
             updateYouLost();
         }
-    } else if ((board.length - 1) === clickCount) {
+    } if ((board.length - 1) === clickCount) {
         console.log('you won');
         updateYouWon();
     }
@@ -505,6 +539,8 @@ function fillActiveSpace() {
         document.getElementById(clickCount.toString()).className = 'selectedSlot';
         document.getElementById(clickCount.toString()).textContent = currentValue;
     } else if ( blockIds.indexOf(board[clickCount]) > -1 ) {  // you're on a block
+        scoreCount++; // your score has increased
+        document.getElementById('score').textContent = ` ${scoreCount}`; // show your score on the game
         document.getElementById(clickCount.toString()).className = 'selectedBlock';
         document.getElementById(clickCount.toString()).textContent = currentValue;
     }
@@ -537,6 +573,10 @@ function doubleClick() {
         emptyPreviouslyActiveSpace();
         clickCount += 2;
         console.log('registered double click, count is '+ clickCount);
+        if (clickCount > 37) {
+            clickCount = 37;
+            checkIfLost();
+        }
         if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
             currentValue = currentValue + slotValues[slotIds.indexOf(clickCount)];
             console.log('in double click, slots, currentValue is', currentValue);
