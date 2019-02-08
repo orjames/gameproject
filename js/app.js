@@ -392,14 +392,14 @@ function initializeNextLevel () {
     document.getElementById('singleClick').style.display = 'flex';
     document.getElementById('doubleClick').style.display = 'flex';
     document.getElementById(clickCount.toString()).className = 'block';
-    document.querySelector('main').style.transition = 'background-color 10s';
+    document.querySelector('main').style.transition = 'background-color 140s';
     document.querySelector('header').textContent = 'intejump';
     startTimer();
     initialize();
 }
 
 function colorBackground() {
-    // document.querySelector('main').style.backgroundColor = 'rgba(183, 28, 28, 0.8)';
+    document.querySelector('main').style.backgroundColor = 'rgba(183, 28, 28, 0.8)';
 }
 
 function generateBlocks() {
