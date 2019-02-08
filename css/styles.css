@@ -129,6 +129,7 @@ img {
 }
 
 div {
+    -webkit-appearance: none;
     display: flex;
     align-items: center;
     justify-content: center;
