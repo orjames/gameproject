@@ -129,10 +129,10 @@ img {
 }
 
 div {
+    -webkit-appearance: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Raleway', sans-serif;
     font-size: 1.6rem;
     font-weight: 1000;
 }
