@@ -15,6 +15,7 @@ var levelCount = 1;
 var scoreCount = 0;
 var instuctionButtonCount = 0;
 var highScoreEl;
+var themeMusic;
 var moveToSlotSound;
 var moveToBlockSound;
 var loseSound;
@@ -381,6 +382,7 @@ function initialize() {
     generateBlocks();
     colorTextOfSlots();
     currentValue = blockValues[0];
+    themeMusic.play();
 }
 
 function initializeNextLevel () {
@@ -498,6 +500,11 @@ function moveToNextInstruction() {
 // adding event listeners for single and double clicks
 document.addEventListener('DOMContentLoaded', function() {
     console.log('up and running');
+    themeMusic = document.getElementById('themeMusic');
+    moveToSlotSound = document.getElementById('moveToSlotSound');
+    moveToBlockSound = document.getElementById('moveToBlockSound');
+    loseSound = document.getElementById('loseSound');
+    winSound = document.getElementById('winSound');
     initialize();
     document.getElementById('singleClick').addEventListener('click', singleClick);
     document.getElementById('doubleClick').addEventListener('click', doubleClick);
@@ -515,10 +522,6 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         highScoreEl.textContent = localStorage.getItem('highScore');
     }
-    moveToSlotSound = new sound();
-    moveToBlockSound = new sound();
-    loseSound = new sound();
-    winSound = new sound();
 });
 
 function updateYouLost() {
@@ -527,6 +530,7 @@ function updateYouLost() {
     } else if ( blockIds.indexOf(board[clickCount]) > -1 ) {  // you're on a block
         document.getElementById(clickCount.toString()).className = 'losingBlock';
     }
+    loseSound.play();
     gameOver = true;
     levelCount = 1;
     scoreCount = 0;
@@ -541,7 +545,7 @@ function updateYouLost() {
     document.getElementById('singleClick').style.display = 'none';
     document.getElementById('doubleClick').style.display = 'none';
     document.querySelector('main').style.transition = 'auto';
-    document.querySelector('main').style.backgroundColor = 'rgba(181, 187, 189, 0.9)';
+    document.querySelector('main').style.backgroundColor = 'rgba(218, 224, 226, 0.9)';
 }
 
 function updateYouWon() {
@@ -558,6 +562,7 @@ function updateYouWon() {
     document.getElementById('doubleClick').style.display = 'none';
     document.querySelector('main').style.transition = 'auto';
     document.querySelector('main').style.backgroundColor = 'rgba(181, 187, 189, 0.9)';
+    winSound.play();
 }
 
 function checkIfLost() {
@@ -622,10 +627,14 @@ function singleClick() {
             console.log('in single click, slots, currentValue is', currentValue);
             fillActiveSpace();
             checkIfLost();
+            moveToSlotSound.play();
         } else if ( blockIds.indexOf(board[clickCount]) > -1 ) { // you're on a block
             console.log('in single click, blocks, currentValue is', currentValue);
             fillActiveSpace();
             checkIfLost();
+            if (!gameOver) {
+                moveToBlockSound.play();
+            }
         } else {
             console.log("error");
         }
@@ -648,10 +657,14 @@ function doubleClick() {
             console.log('in double click, slots, currentValue is', currentValue);
             fillActiveSpace();
             checkIfLost();
+            moveToSlotSound.play();
         } else if ( blockIds.indexOf(board[clickCount]) > -1 ) { // you're on a block
             console.log('in double click, blocks, currentValue is', currentValue);
             fillActiveSpace();
             checkIfLost();
+            if (!gameOver) {
+                moveToBlockSound.play();
+            }
         } else {
             console.log("error");
         }

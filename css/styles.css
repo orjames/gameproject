@@ -26,7 +26,7 @@ main {
                             "r11c1  r11c2   r11c3   r11c4   r11c5   r11c6   r11c7   r11c8   r11c9   r11c10  r11c11"
                             "r12c1  timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   r12c10  r12c11";
     transition: background-color 10s;
-    background-color: rgba(181, 187, 189, 0.9);
+    background-color: rgba(218, 224, 226, 0.9);
     border: 10px solid rgba(0, 0, 0, 0.2);
 }
 
@@ -43,7 +43,7 @@ main {
     color: rgba(17, 17, 17, 0.9);
     top: 0; left: 0; right: 0;
     padding: 1.1rem;
-    background-color:  rgba(181, 187, 189, 0.9);
+    background-color:  rgba(218, 224, 226, 0.9);
     width: 375px;
     height: 750px;
     border: 10px solid rgba(0, 0, 0, 0.2);
