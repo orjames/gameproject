@@ -7,7 +7,7 @@ main {
     text-align: center;
     /* min-height: 100vh; */
     width: 375px;
-    height: 750px;
+    height: 675px;
     margin: 0 auto;
     grid-template-rows:     5fr 10fr 5fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 15fr;
     grid-template-columns:  2fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 2fr 0fr;
