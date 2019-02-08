@@ -545,7 +545,7 @@ function updateYouLost() {
     document.getElementById('singleClick').style.display = 'none';
     document.getElementById('doubleClick').style.display = 'none';
     document.querySelector('main').style.transition = 'auto';
-    document.querySelector('main').style.backgroundColor = 'rgba(218, 224, 226, 0.9)';
+    document.querySelector('main').style.backgroundColor = 'rgba(237, 240, 241, 0.9)';
 }
 
 function updateYouWon() {

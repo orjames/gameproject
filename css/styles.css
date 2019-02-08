@@ -9,7 +9,7 @@ main {
     width: 375px;
     height: 675px;
     margin: 0 auto;
-    grid-template-rows:     5fr 10fr 5fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 15fr;
+    grid-template-rows:     6fr 10fr 6fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 15fr;
     grid-template-columns:  2fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 10fr 2fr 0fr;
     grid-template-areas:    "r00c1  header  header  header  header  header  header  r00c8   r00c9   r00c10  r00c11"
                             "r0c1   header  header  header  header  header  header  score   score   r0c10   r0c11"
@@ -26,7 +26,7 @@ main {
                             "r11c1  r11c2   r11c3   r11c4   r11c5   r11c6   r11c7   r11c8   r11c9   r11c10  r11c11"
                             "r12c1  timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   timerDiv   r12c10  r12c11";
     transition: background-color 140s;
-    background-color: rgba(218, 224, 226, 0.9);
+    background-color: rgba(237, 240, 241, 0.9);
     border: 10px solid rgba(0, 0, 0, 0.2);
 }
 
@@ -44,14 +44,14 @@ main {
     color: rgba(17, 17, 17, 0.9);
     top: 0; left: 0; right: 0;
     padding: 1.1rem;
-    background-color:  rgba(218, 224, 226, 0.9);
+    background-color:  rgba(237, 240, 241, 0.9);
     width: 375px;
-    height: 750px;
+    height: 700px;
     border: 10px solid rgba(0, 0, 0, 0.2);
 }
 
 img {
-    width: 280px;
+    width: 260px;
     height: auto;
     border: 5px solid rgba(0, 0, 0, 0.2);
     margin-bottom: 0.1rem; 
