@@ -200,23 +200,27 @@ div {
 }
 
 .slot {
+    -webkit-appearance: none;
     background-color: rgba(217, 220, 223, 0.4);
     border-radius: 1.3rem;
     color: rgba(43, 42, 42, 0.6);
 }
 .positiveSlot {
+    -webkit-appearance: none;
     background-color: rgba(217, 220, 223, 0.4);
     color: rgba(46, 125, 50, 1);
     border-radius: 1.3rem;
 }
 
 .negativeSlot {
+    -webkit-appearance: none;
     background-color: rgba(217, 220, 223, 0.4);
     color: rgba(183, 28, 28, 0.8);
     border-radius: 1.3rem;
 }
 
 .selectedSlot {
+    -webkit-appearance: none;
     color: rgba(242, 243, 248, 1.0);
     background-color: rgba(139,195,74,0.9);
     border-radius: 1.3rem;
@@ -224,6 +228,7 @@ div {
 }
 
 .losingSlot {
+    -webkit-appearance: none;
     background-color: rgba(239,83,80,0.9);
     border-radius: 1.3rem;
     animation: shadow-pulse 0.9s infinite;
