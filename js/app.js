@@ -537,7 +537,7 @@ function updateYouLost() {
     timeLeft = 80;
     document.querySelector('header').textContent = 'you lost';
     document.querySelector('header').style.color = 'rgba(239,83,80,0.9)';
-    document.getElementById('score').textContent = ` ${scoreCount}`; 
+    document.getElementById('score').textContent = `${scoreCount}`; 
     clearInterval(setTimer);
     document.getElementById('timerBar').style.display = 'none';
     document.getElementById('nextLevelButton').style.display = 'flex';
