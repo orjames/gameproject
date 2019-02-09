@@ -29,37 +29,52 @@ ___
 
 # Development
 
-## Idea & Wireframes
+## Wireframes & Concepts
 
 I knew I wanted to create a puzzle oriented game, and I wanted to focus on the logic of the game as my main challenge. I figured a number-based game would be both fun for me and challenging logic-wise. I settled on a game where you rapidly try to add and subtract to reach a given value. I came up with some ideas and began wireframing.
 
-After an hour of introduction to HTML5 Canvas using jQuery at the end of class on a Friday, I went home and decided to recreate the exercise using vanilla JavaScript (ES6) and started thinking about what I wanted to do for the [project](https://gawdiseattle.gitbooks.io/wdi/11-projects/project-1/readme.html) that I was going to be starting (_and completing!_) the next week. 
+![alt text](https://wireframe.cc/zw3cCq "wireframe")
 
-![Canvas Proof of concept](https://github.com/shullmb/readme_screenshots/raw/master/dc/mockup/proofofconcept.gif)
+I originally planned on just having two slots for every move for simplicity, but decided to go with a mix between three and two slots between each block.
 
-I decided to try my hand at building a simple dungeon crawler with turn based battle mechanics.
+Developing the logic was the hardest part I figured, so I sat down with my notepad and started thinking about edge cases, limitations, ways to test these. I decided block values should be between 0 - 9 (these are the values your cumulative number is trying to match), then set out to find a random way of determinging the spaces inbetween (called slots).
 
-#### Storyboards & Wireframes with Adobe XD
-I sat down with my trusty yellow legal pad and favorite blue pen and started scribbling down my ideas for how the game should work, UI ideas and battle mechanic pseudocode.
+For places where there are tow slots between blocks, ie block-slot-slot-block, I decided to randomly select if there was one planned correct slot or two planned correct slots (50/50).
 
-![Legal Pad Scribblings](https://github.com/shullmb/readme_screenshots/raw/master/dc/legal.jpg)
+| Two Slots Possible combinations |
+| -------------- |:--------------:|
+| correct        | correct        |
+| incorrect      | correct        |
+| correct        | incorrect      |
 
-As it is part of my Creative Cloud subscription, I decided to give [Adobe XD](https://www.adobe.com/products/xd.html) a shot for wireframing and storyboarding out the flow of the game. (Apparently it is free for anyone -- cool!).
+In the case of one correct slot, I decided to randomly select if that were the first slot or the second, to keep the game from being predictable.
 
-![Canvas Proof of concept](https://github.com/shullmb/readme_screenshots/raw/master/dc/mockup/storyboard.png)
+Similarly, where there were three slots between blocks, I found there were five combinations of moves to reach the next slot:
 
+| Three Slots Possible combinations |
+| --------- |:---------:| ---------:|
+| correct   | correct   | correct   |
+| correct   | correct   | incorrect |
+| correct   | incorrect | correct   |
+| incorrect | correct   | correct   |
+| incorrect | correct   | incorrect |
 
-#### Dungeon Crawling
+I broke these into three cases: one correct (1/5 probability of occuring), two correct (3/5 probability of occuring), three correct (1/5 probability of occuring).
 
-![Wireframe!](https://github.com/shullmb/readme_screenshots/raw/master/dc/mockup/wireframe.png)
+For the one correct and three correct cases, the location of the slots didn't matter because it had to be in the middle for one correct, and it was all three for three correct. For the three correct case, I made the first slot number random between -9 and 9 so long as the total (current slot plus previous block) was within the -9 to 9 bounds. So on so forth until the next block was = previous block + 1st slot + 2nd slot + 3rd slot. Each addition I was ensuring the total was within the -9 to 9 bounds.
 
-#### Turn Based Battle
+I did the same step for the one correct case, albeit only once.
 
-![Gameplay](https://github.com/shullmb/readme_screenshots/raw/master/dc/mockup/battleMode.gif)
-___
+For the two correct case, I randomly selected which two slots would be correct, then using similar mechanics as above calculated thier values. The incorrect slot is a random integer between -9 and 9.
+
+--
 
 ## Starting Development
-On the Monday following the weekend planning, our class had a standup meeting to touch base and share our individual plans for the week. After receiving our instructor's blessing to go forth and start and some clarifying questions, I set out and defined tasks I hoped to complete for the first 2 days, with a goal of having a working (_minimally_) game by end-of-day Thursday. 
+On the Monday following the weekend planning, I laid out my plans for the week and the steps I'd need to take to get there.
+
+Generating the board was my largest hurdle. Over the weekend I had completed the pseudocode to begin doing this, and laid out the logic. I set out using DOM manipulation to output the values generated on the board design I had come up with.
+
+
 
 My goal for the first day was to be able to halt action in the dungeon, reveal the battle interface and return to the dungeon setting. 
 
@@ -74,7 +89,6 @@ The idea was that the player and computer controlled crawler would face off taki
 
 However, as I began testing my game, something wasn't right. The roll of an eight sided die was causing massive amounts of damage. As the example shows below, the monster, 'm', has some major health issues after a single push of a button.
 
-![i got problems](https://github.com/shullmb/readme_screenshots/raw/master/dc/problems.png)
 
 When I started logging each roll, it became obvious that the attack was happening 30 - 50 times before the logic to return to the dungeon was triggering. I was baffled -- and started looking for the cause. After some deliberation and discussion with my instructors, we identified the cause. In order to create an animation effect in canvas, one must clear and redraw the screen. In my case, I was using `setInterval()` to trigger a redraw every 60ms so that the player appeared to run around the dungeon.
 
@@ -105,96 +119,6 @@ My first real experience with learning OOP was in Ruby, and ES6's new syntactic 
 
 I was also able to take some of the patterns from the first iteration and make them more scaleable. This time around, created a function to randomly generate multiple crawlers. Further, I designed the collision detection to pick up and start battle with any of my random crawlers. By Wednesday afternoon, I had surpassed the progress of the previous two days.
 
-## A dark place... and a light to guide
-Thrilled that the mechanics of the game were actually working as I intended (_mostly_), I turned my attention to player experience. Running around in a dungeon to collide with static creatures of known locations isn't all that fun... So I decided to turn out the lights. 
-
-#### Masking the canvas
-Earlier in the week, I had learned that I could layer canvas elements on top of each other and had already implemented this method to help execute the dual gameplay states. So I started googling ways to overlay a canvas and mask a shape. I found [this answer on stack overflow](https://stackoverflow.com/questions/6271419/how-to-fill-the-opposite-shape-on-canvas) that helped set me on the right path.
-
-Soon, I had a transparent hole in a black canvas following my hero through the dungeon.
-
-![Lantern](https://github.com/shullmb/readme_screenshots/raw/master/dc/lantern1.png)
-
-```js
-var canvasMask = new Image();
-canvasMask.src = "img/canvas_mask.png";
-gloom.drawImage(canvasMask,0,0,ctxWidth,ctxHeight);
-gloom.globalCompositeOperation = 'destination-out';
-```
-
-#### Feathering the edges
-This was cool... but lacked the subtle glow I wanted. I started digging through MDN's info on Canvas and found the article I was looking for.
-
-![Lantern](https://github.com/shullmb/readme_screenshots/raw/master/dc/lantern2.png)
-
-`CanvasRenderingContext2d.filter` is still labeled as [experimental](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/filter) on MDN and at the time of writing only works in Chrome. 
-```js
-gloom.filter = "blur(32px)";
-```
-
-
-#### Getting the feel right
-
-After adding the filter, it still didn't quite have the feel I was hoping to achieve. So I began to think about what was missing and identified the static nature of the glow... So I began experimenting. As the main game loop function is firing every 60ms, I was able to easily calculate a random number for my `lanternRadius` at this interval. This produced an excellent flicker that added the final piece I was looking for.
-
-![Lantern](https://github.com/shullmb/readme_screenshots/raw/master/dc/flicker.gif)
-
-I played with the range and settled on a number between 48 and 64 pixels allowing the player to see in a radius between 16 and 32 pixels outside the size of their sprite.
-```js
-// flicker and fade!
-var lanternRadius = 48 + Math.floor(Math.random() * 16);
-
-// position lantern centered over player
-gloom.arc(player.x + 16, player.y + 16, lanternRadius, 0, 2 * Math.PI);
-gloom.fill();
-```
-
-## Shadow Imp on the hunt
-
-It was now Friday afternoon, I had worked out the bugs in timing of the battle and everything seemed to be working acceptably. 
-
-So  I started working on some of my stretch goals. I liked the idea of having a crawler that tracks the position of the player and slowly stalks closer.
-
-I created a child of the Crawler prototype called Mover and devised the following function to start the hunt. 
-
-```js
-Mover.prototype.hunt = function() {
-    var dx = this.x - player.x;
-    var dy = this.y - player.y;
-    
-    if ( dx > 0) {
-        this.x--; 
-        this.src = this.src.replace('r','l');
-    } else {
-        this.x++;
-        this.src = this.src.replace(/-l/,'-r');
-    }
-    
-    if ( dy > 0 ) {
-        this.y--; 
-    } else {
-        this.y++;
-    }
-}
-```
-
-![Imp on the hunt](https://github.com/shullmb/readme_screenshots/raw/master/dc/imp_hunt.gif)
-
-Watch out! The imp is far stronger than the other crawlers... better get some practice with them before it finds you!
-
-___
-## Known issues and shortcomings
-So far, this game is not responsive and does not have mobile controls. 
-
-As this is my first attempt at actually using canvas, I focused on getting the gameplay and animation right first. In my initial attempts to make a responsive layout, I ran into issues with distortion of the image sprites that I was using. Resizing the window caused my 32 x 32 pixel hero and crawlers to stretch and squish in weird and unappealing ways. So I decide on a 832 x 416 pixel canvas. I am sure that there must be a way around this issue... I have not had a chance to look into it yet, but it is high on my list. I did anticipate this next step and have all calculations that involve the dimensions of the canvas controlled by the variables, `ctxWidth` and `ctxHeight`.
-
-As 832 x 416 is too big for phones, I decided to put my efforts toward creating more player experience for desktop users first before adding touch controls for tablets.
-
-I was able to implement some audio, however, tracking down the right sounds available for free was tricky with time in short supply, so you wont be able to hear the fireball unless you have a pretty responsive subwoofer. 
-
-As for semantic tags in html, per the requirements, I attempted to use them where I could. I used `<main>` to hold my canvas and `<header>`, but none of the other tags seem to fit for my project. The game UI boxes don't really qualify as an aside, section, article etc, so I didn't use them.
-
-It is deployed to mbshull.com/dungeon, however, that site does not have any links back to this repo. I will be adding a `<footer>` with information soon.
 
 ## In the works
 Hoping to implement some of these soon!
