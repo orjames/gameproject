@@ -7,7 +7,12 @@ ___
 
 The user jumps their way through the game, with the current cumulative value shown on the current (green block. The user can either single jump to add the value on the next tile to their current value, or double jump to skip the next tile, then add the one after that to the current value. 
 
-
+| 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|
+| <img src="https://github.com/orjames/gameproject/blob/master/img/left_right_instructions.JPG" alt="instuctions1" width="200" style="display:inline-block;"/> | <img src="https://github.com/orjames/gameproject/blob/master/img/fourth_singe_double_jump.JPG" alt="instuctions2" width="200" style="display:inline-block;"/> | 
+<img src="https://github.com/orjames/gameproject/blob/master/img/second_current_value_goal_value.JPG" alt="instuctions3" width="200" style="display:inline-block;"/> | 
+<img src="https://github.com/orjames/gameproject/blob/master/img/first_blocks_and_score.JPG" alt="instuctions4" width="200" style="display:inline-block;"/> | 
+<img src="https://github.com/orjames/gameproject/blob/master/img/fifth_ways_to_lose.JPG" alt="instuctions5" width="200" style="display:inline-block;"/> |
 
 <img src="https://github.com/orjames/gameproject/blob/master/img/left_right_instructions.JPG" alt="instuctions1" width="200" style="display:inline-block;"/>
 
