@@ -41,8 +41,8 @@ Developing the logic was the hardest part I figured, so I sat down with my notep
 
 For places where there are tow slots between blocks, ie block-slot-slot-block, I decided to randomly select if there was one planned correct slot or two planned correct slots (50/50).
 
-| Two Slots Possible combinations |
-| -------------- |:--------------:|
+| Two Slots Possible combinations| |
+| -------------- | -------------- |
 | correct        | correct        |
 | incorrect      | correct        |
 | correct        | incorrect      |
@@ -51,8 +51,8 @@ In the case of one correct slot, I decided to randomly select if that were the f
 
 Similarly, where there were three slots between blocks, I found there were five combinations of moves to reach the next slot:
 
-| Three Slots Possible combinations |
-| --------- |:---------:| ---------:|
+| Three Slots Possible combinations| |
+| --------- |-----------| ----------|
 | correct   | correct   | correct   |
 | correct   | correct   | incorrect |
 | correct   | incorrect | correct   |
@@ -70,46 +70,44 @@ For the two correct case, I randomly selected which two slots would be correct, 
 --
 
 ## Starting Development
-On the Monday following the weekend planning, I laid out my plans for the week and the steps I'd need to take to get there.
+On the Monday following the weekend planning, I laid out my plans for the week ahead and the steps I'd need to take to get there.
 
 Generating the board was my largest hurdle. Over the weekend I had completed the pseudocode to begin doing this, and laid out the logic. I set out using DOM manipulation to output the values generated on the board design I had come up with.
 
+By the end of the day Monday, I had the logic all ready to implement a game board, added a for loop and was able to generate a board full of values with what I thought were correct slot values to form a viable path to victory. It didn't take long to test out and find that there was at least one bug.
 
+## Sorting Out Bugs, Refactoring Code, Digging Under the Hood
 
-My goal for the first day was to be able to halt action in the dungeon, reveal the battle interface and return to the dungeon setting. 
+I thought I was ahead of schedule until I noticed there were instances when the game board was set up correctly (ie there was a pathway to the end block), but many instances where there weren't. What did I do to fix this? Console. Log. Everything.
 
-After a morning of setting up the page, css and little more reading on canvas. I started hammering away at my app.js strictly using ES6 conventions for the practice.
+A whole day and hundreds of tests later, I foudn my issue. A line of code reasigning a value of my block value arrays twice each time it runs throught the overarching for loop.
 
-By early afternoon, I had a met my goal... or so I thought.
+However, when I ran into this problem, I had to analyze every line of my code and I found what I beleived were insances of redundant code. I took note of where these were, and decided that if I had time later on the week, I would find a way to clean this up. Right then though, I was more focused on getting a minimum viable product out (gotta appease the investors!).
 
-## The Frustrating Duality of my Game Loop
-Per my plan, the second day of development I started coding the turn based battle logic. 
+## Making the Game an Actual Playable Game
 
-The idea was that the player and computer controlled crawler would face off taking turns rolling dice to damage the other. 
+So I had the game board setup (still a couple bugs unbeknownst to me at the time), now how can I make it a playable game? I knew I wanted to tailor the experience for mobile phones, particularly the iphone. In chrome I used the developer tools to see how the board would look on an Iphone X and made some minor adjustments to the board, running into some fairly frustrating CSS roadblocks particularly wiht my grid layout.
 
-However, as I began testing my game, something wasn't right. The roll of an eight sided die was causing massive amounts of damage. As the example shows below, the monster, 'm', has some major health issues after a single push of a button.
+I got the board to a working draft and then ran into a roadblock immediately with my progression mechanics. Since I wanted it to be a mobile app, I wanted one touch to be a single jump, and a double tap to be a double jump. Simple enough right? Wrong. After looking online, consulting with colleagues, sould searching, etc. I couldn't find a viable way to get the double touch to be registered as a double touch and not two single touches followed by a double touch. After frustrating hours, I conceded and decided to shelf this project if I had more time later. I opted for a tap on the left side of the screen to be a single jump, a tap on the right side to be a double jump. It was fairly intuitive and I was happy with the result.
 
+I had my jump mechanics, next I needed to show where the user was within the game. I used DOM manipulation to output the current value to the value shown on the block/slot the player was on. I found a nice green on materialize and went with that color for the current slot. A few beta tests with other people and I got feedback that most were confused as to where they were on the board still, so I put a pulse shadow on the current piece which helped.
 
-When I started logging each roll, it became obvious that the attack was happening 30 - 50 times before the logic to return to the dungeon was triggering. I was baffled -- and started looking for the cause. After some deliberation and discussion with my instructors, we identified the cause. In order to create an animation effect in canvas, one must clear and redraw the screen. In my case, I was using `setInterval()` to trigger a redraw every 60ms so that the player appeared to run around the dungeon.
+I then decided to clear the previous slots that were played to make the user feel like they progressed through each level a little more. When my draft game was up and running this is the psuedocode process of functions that were ran in order:
 
-As it turns out, my success the day before was an illusion...I had set up the interval to stop the action in the dungeon and start showing the battle interface... but it was also triggering the battle logic repeatedly until the computer controlled crawler was far past dead. 
+1. Initialize //sets all values to zero, starts the background color change transition, randomly creates first block value, triggers generateBlocks function (later it calls functions to start the theme music and a couple formatting things like color coding positive vs negative numbers, etc.)
+2. function generateBlocks // this calls a bunch of other fucntions in it, but for brevity, we'll  just say it generates all the values for the entire game board.
+3. single click or double click // these change the value of your cumulative total, ups the click count, and call other functions to change the look of the board so a user can progress through the game
+  4. Check if lost // looks at all the possible conditions you could lose, and checks the one condition in which you could win, thus      calls one of two functions - updateYouLost, updateYouWon
+  4a. updateYouLost/updateYouWon // these functions are triggered once the player wins or loses, update the game board to reflect it, resets the timer, activates the button to restart or go to the next level
+ 5. fillActiveSpace and emptyPreviouslyActiveSpace // these make the game show that the player has progressed based on how much they clicked (single or double), they change to formatting of the current space, then revert the previous space to normal formatting and remove the number from it so now its black
+ 
+## Working Game! Now Features
 
-So I went back to the drawing board and started thinking of the correct way to break in and out of the game loop.
+I had a game that worked! (not flawlessly but we'll get to that). Next I wanted to implement some features to add intrigue to the game, these included:
 
-Eventually, I came to this pattern:
-
-- declare a global variable, `gameLoopHandle`, leaving it undefined
-- create a boolean for state the game is in, `dungeonMode`
-- write a function with logic that listens for an encounter that clears the interval and starts the battle, `setLoopInterval()`
-- Once the DOM has loaded completely, assign `setLoopInterval()` to `gameLoopHandle`
-- Once battle is done, set `dungeonMode` back to true and assign `setLoopInterval()` to `gameLoopHandle` again
-
-Success! I had it working -- but half a day behind my plan.
-
-...and oh boy did I make a mess trying to debug and rework what I had already written to work with this better design.
-
-## Scrapping the draft
-Late Wednesday morning, I met with my instructor after struggling a bit to untangle my logic... and asked the question I had been avoiding. "How often have you thrown out a large chunk of your work and started again from scratch?" I received the reassurance that I was looking for and decided that scrapping it was a better path to take than continuing with the current iteration. After lunch, I pulled the trigger and started reading through my code to see what I could salvage.
+-A timer
+-levels
+-
 
 ## Rewrite with scale in mind
 
