@@ -123,6 +123,8 @@ I first found every time I used getElementById, querySelector, etc. and assigned
 
 Next I went back to my code and was able to eliminate over 100 lines of reduntant code within the generate board function
 
+Markup :  `code()`
+
 // makes two correct slots out of two slot spaces
 function generateTwoCorrectSlotsOfTwo() {
     currentBlock = blockValues[i];
