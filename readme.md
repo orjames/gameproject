@@ -51,7 +51,7 @@ In the case of one correct slot, I decided to randomly select if that were the f
 
 Similarly, where there were three slots between blocks, I found there were five combinations of moves to reach the next slot:
 
-| Three Slots Possible combinations| |
+| Three Slots Possible combinations|||
 | --------- |-----------| ----------|
 | correct   | correct   | correct   |
 | correct   | correct   | incorrect |
