@@ -70,9 +70,9 @@ For the two correct case, I randomly selected which two slots would be correct, 
 --
 
 ## Starting Development
-On the Monday following the weekend planning, I laid out my plans for the week ahead and the steps I'd need to take to get there.
+On the Monday following the weekend planning, I laid out my plans for the week ahead and the steps I'd need to take to get there. I severly underestimated some tasks, but had a good start on my project already.
 
-Generating the board was my largest hurdle. Over the weekend I had completed the pseudocode to begin doing this, and laid out the logic. I set out using DOM manipulation to output the values generated on the board design I had come up with.
+Generating the board was my largest hurdle. Over the weekend I had completed the pseudocode to begin doing this, thought I had the logic laid out, and had began writing the JS code. I set out using DOM manipulation to output the values generated on the board design I had come up with.
 
 By the end of the day Monday, I had the logic all ready to implement a game board, added a for loop and was able to generate a board full of values with what I thought were correct slot values to form a viable path to victory. It didn't take long to test out and find that there was at least one bug.
 
