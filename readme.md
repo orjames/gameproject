@@ -121,7 +121,7 @@ the instructions screens presented a challenge because I couldn't find a good wa
 
 I first found every time I used getElementById, querySelector, etc. and assigned these to a variable within the DOMContentLoaded event listener. This helped make the app more efficient.
 
-Next I went back to my code and was able to eliminate over 100 lines of reduntant code within the generate board function
+Next I went back to my code and was able to eliminate over 100 lines of reduntant code within the generate slots functions. I previously had an if statement saying if the random number generated fit within the game parameters assign it to slot values, the an else followed by a while loop which kept getting random numbers until it fit into the game parameters, and then it assigned it to slot values. I found that I could eliminate this these if and else statements altogether, and just assign the slot value after the random number followed by while loop. This was the end code. It could probably be more elegant instead of using a while loop, but this works and is fairly clean.
 
 ```javascript         
 // makes two correct slots out of two slot spaces
@@ -150,12 +150,13 @@ Hoping to implement some of these soon!
 - [ ] Refactoring code to DRY it out
 - [ ] Double tap mechanics
 - [ ] Power-up / bonus meter for extra points
-- [x] Ability to pause
-- [x] Ability to pause music
+- [ ] Ability to pause
+- [ ] Ability to pause music
 - [ ] Change all buttons to icons with no text (cleaner feel)
 - [ ] fully adaptive layout
 - [ ] video demonstration for instructoins
+- [ ] background image
 
 ___
-## Game Art & Sounds
-HUGE THANKS TO THESE FOLKS who have released their work for free use under various Creative Commons Licenses!
+## Game Sounds
+Huge thanks to Yondo music for the background music and freesound.org for the in-game sound effects.
