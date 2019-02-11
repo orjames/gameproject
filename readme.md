@@ -125,7 +125,7 @@ Next I went back to my code and was able to eliminate over 100 lines of reduntan
 
 Markup :  `code()`
 Markup : ```javascript
-         ```
+         
 // makes two correct slots out of two slot spaces
 function generateTwoCorrectSlotsOfTwo() {
     currentBlock = blockValues[i];
@@ -145,6 +145,7 @@ function generateTwoCorrectSlotsOfTwo() {
     j++;
     nextBlock = currentBlock + firstCorrect + secondCorrect;
 }
+```
 
 ## In the works
 Hoping to implement some of these soon!
