@@ -105,36 +105,55 @@ I then decided to clear the previous slots that were played to make the user fee
 
 I had a game that worked! (not flawlessly but we'll get to that). Next I wanted to implement some features to add intrigue to the game, these included:
 
--A timer
--levels
--
+ Markup : * Timer
+              * opted to switch into a value bar that fills as time progresses as opposed to a countdown
+                  * added the background color transition from white to red to add sense of urgency
+          * Levels (total time alotted to each level decreases by 10 seconds each level)
+          * Instructions screen
+          
+making the timerbar was tricky because I didn't want to hardcode the value, so I implemented a levels counter to change how much time the user had for each level
 
-## Rewrite with scale in mind
+the levels were fairly simple. Since the board was randomly generated, I couldn't think of a way to make the paths more difficult without changing the entire board layout to maybe include more three segments. I opted to just reduce the time allowed each subsequent level, after some testing, found that 10 seconds was a good time to reduce by.
 
-Having written the first iteration in ES6, I ran into a few issues as I did not have babel and a task runner set up to in my development environment. Instead of spending time learning the right way to set up the build, I decided to write the second iteration using ES5 conventions. 
+the instructions screens presented a challenge because I couldn't find a good way to have the whole board dissapear. Instead I used a div with absolute positioning in front of the board. Working with the instructions was actually extremely challenging to get into words in a concise and clean way. I bounced a lot of ideas of colleagues and beta testers. I settled on images being the easiest way to explain the game (a picture is worth a thousand words). In the future I'd like to find a way to put video instructions in there to make them more seamless, some people are still unsure how to play even after the instructions.
 
-My first real experience with learning OOP was in Ruby, and ES6's new syntactic sugar for `class` had a familiarity that drew me in at the outset of this project. Rewriting in ES5 gave me a chance to practice using JavaScript's prototypal inheritance syntax with my Crawler, Hero and Mover objects. 
+## Refactoring Code
 
-I was also able to take some of the patterns from the first iteration and make them more scaleable. This time around, created a function to randomly generate multiple crawlers. Further, I designed the collision detection to pick up and start battle with any of my random crawlers. By Wednesday afternoon, I had surpassed the progress of the previous two days.
+I first found every time I used getElementById, querySelector, etc. and assigned these to a variable within the DOMContentLoaded event listener. This helped make the app more efficient.
 
+Next I went back to my code and was able to eliminate over 100 lines of reduntant code within the generate board function
+
+// makes two correct slots out of two slot spaces
+function generateTwoCorrectSlotsOfTwo() {
+    currentBlock = blockValues[i];
+    firstCorrect = randomNumberNeg9Through9(); // generates a random number -9 to 9 and assigns it to firstCorrect slot
+    while ((currentBlock + firstCorrect) < -9 || (currentBlock + firstCorrect) > 9) { // else if sum of currentBlock + firstCorrect is not within the legal bounds
+        firstCorrect = randomNumberNeg9Through9(); // keep randomly generating a number until the currentBlock + firstCorrect is within valid game rules
+    }
+    slotValues[j] = firstCorrect; // assign slotValues[j] the firstCorrect value
+    document.getElementById(slotIds[j].toString()).textContent = slotValues[j]; // change slotValues[j] on screen text to that firstCorrect value
+    j++; // increment j so it moves on to the next slot value
+    secondCorrect = randomNumberNeg9Through9();
+    while ((currentBlock+firstCorrect+secondCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect) > 9) {
+        secondCorrect = randomNumberNeg9Through9();
+    }
+    slotValues[j] = secondCorrect;
+    document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+    j++;
+    nextBlock = currentBlock + firstCorrect + secondCorrect;
+}
 
 ## In the works
 Hoping to implement some of these soon!
-- [ ] Refactoring a few things
-- [ ] Modal showing controls and instructions
-- [ ] More responsive layout
+- [ ] Refactoring code to DRY it out
+- [ ] Double tap mechanics
+- [ ] Power-up / bonus meter for extra points
 - [x] Ability to pause
-- [x] Audio
-- [ ] **Mute button**
-- [ ] Mobile controls
-- [ ] Change the system so that leveling up occurs after the dungeon is cleared
-- [ ] Hero Choice
-- [ ] More crawler variety
-- [ ] Scoring system
-- [ ] Use Local Storage to save highscores or player's current stats
-- [ ] Rats!! 🐀
-- [ ] Dungeon walls, mazes and obstacles.
-- [ ] `imp.hunt()` using Dijkstra's Hero Tracking algorithm 👹
+- [x] Ability to pause music
+- [ ] Change all buttons to icons with no text (cleaner feel)
+- [ ] fully adaptive layout
+- [ ] video demonstration for instructoins
+
 ___
 ## Game Art & Sounds
 HUGE THANKS TO THESE FOLKS who have released their work for free use under various Creative Commons Licenses!
