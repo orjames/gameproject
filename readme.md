@@ -9,7 +9,7 @@ The user jumps their way through the game, with the current cumulative value sho
 
 
 
-<img src="https://github.com/orjames/gameproject/blob/master/img/left_right_instructions.JPG" alt="instuctions1" width="200"/>
+<img src="https://github.com/orjames/gameproject/blob/master/img/left_right_instructions.JPG" alt="instuctions1" width="200" style="display:inline;"/>
 
 <img src="https://github.com/orjames/gameproject/blob/master/img/fourth_singe_double_jump.JPG" alt="instuctions2" width="200"/>
 
