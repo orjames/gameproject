@@ -8,15 +8,15 @@ ___
 The user jumps their way through the game, with the current cumulative value shown on the current (green block. The user can either single jump to add the value on the next tile to their current value, or double jump to skip the next tile, then add the one after that to the current value. 
 
 
-![alt text](https://github.com/orjames/gameproject/blob/master/img/left_right_instructions.JPG "instructions 1")
+![alt text](https://github.com/orjames/gameproject/blob/master/img/left_right_instructions.JPG =250x "instructions 1")
 
-![alt text](https://github.com/orjames/gameproject/blob/master/img/fourth_singe_double_jump.JPG "instructions 2")
+![alt text](https://github.com/orjames/gameproject/blob/master/img/fourth_singe_double_jump.JPG =250x "instructions 2")
 
-![alt text](https://github.com/orjames/gameproject/blob/master/img/second_current_value_goal_value.JPG "instructions 3")
+![alt text](https://github.com/orjames/gameproject/blob/master/img/second_current_value_goal_value.JPG =250x "instructions 3")
 
-![alt text](https://github.com/orjames/gameproject/blob/master/img/first_blocks_and_score.JPG "instructions 4")
+![alt text](https://github.com/orjames/gameproject/blob/master/img/first_blocks_and_score.JPG =250x "instructions 4")
 
-![alt text](https://github.com/orjames/gameproject/blob/master/img/fifth_ways_to_lose.JPG "instructions 5")
+![alt text](https://github.com/orjames/gameproject/blob/master/img/fifth_ways_to_lose.JPG =250x "instructions 5")
 
 
 #### Advancing a Level
