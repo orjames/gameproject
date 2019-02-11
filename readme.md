@@ -10,6 +10,8 @@ The user jumps their way through the game, with the current cumulative value sho
 
 ![alt text](https://github.com/orjames/gameproject/blob/master/img/left_right_instructions.JPG =250x "instructions 1")
 
+<img src="https://github.com/orjames/gameproject/blob/master/img/left_right_instructions.JPG" alt="instuctions1" width="200"/>
+
 ![alt text](https://github.com/orjames/gameproject/blob/master/img/fourth_singe_double_jump.JPG =250x "instructions 2")
 
 ![alt text](https://github.com/orjames/gameproject/blob/master/img/second_current_value_goal_value.JPG =250x "instructions 3")
