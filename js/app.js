@@ -78,296 +78,171 @@ function isABlock (nextLocation) {
     }
 }
 
-// makes two correct slots out of two slot spaces
+// makes two correct slots out of two slot spaces, used in generating the board, called from generateBlocks function
 function generateTwoCorrectSlotsOfTwo() {
     currentBlock = blockValues[i];
     firstCorrect = randomNumberNeg9Through9(); // generates a random number -9 to 9 and assigns it to firstCorrect slot
-    if ((currentBlock + firstCorrect) >= -9 && (currentBlock + firstCorrect) <= 9) { // if sum of currentBlock + firstCorrect is within the game's legal bounds then firstCorrect is valid
-        slotValues[j] = firstCorrect; // assign slotValues[j] the firstCorrect value
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j]; // change slotValues[j] on screen text to that firstCorrect value
-        j++; // increment j so it moves on to the next slot value
-    } else {
-        while ((currentBlock + firstCorrect) < -9 || (currentBlock + firstCorrect) > 9) { // else if sum of currentBlock + firstCorrect is not within the legal bounds
-            firstCorrect = randomNumberNeg9Through9(); // keep randomly generating a number until the currentBlock + firstCorrect is within valid game rules
-        }
-        slotValues[j] = firstCorrect;
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        j++;
+    while ((currentBlock + firstCorrect) < -9 || (currentBlock + firstCorrect) > 9) { // else if sum of currentBlock + firstCorrect is not within the legal bounds
+        firstCorrect = randomNumberNeg9Through9(); // keep randomly generating a number until the currentBlock + firstCorrect is within valid game rules
     }
+    slotValues[j] = firstCorrect; // assign slotValues[j] the firstCorrect value
+    document.getElementById(slotIds[j].toString()).textContent = slotValues[j]; // change slotValues[j] on screen text to that firstCorrect value
+    j++; // increment j so it moves on to the next slot value
     secondCorrect = randomNumberNeg9Through9();
-    if ((currentBlock+firstCorrect+secondCorrect) >= 0 && (currentBlock+firstCorrect+secondCorrect) <= 9) {
-        slotValues[j] = secondCorrect;
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        j++;
-    } else {
-        while ((currentBlock+firstCorrect+secondCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect) > 9) {
-            secondCorrect = randomNumberNeg9Through9();
-        }
-        slotValues[j] = secondCorrect;
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        j++;
+    while ((currentBlock+firstCorrect+secondCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect) > 9) {
+        secondCorrect = randomNumberNeg9Through9();
     }
+    slotValues[j] = secondCorrect;
+    document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+    j++;
     nextBlock = currentBlock + firstCorrect + secondCorrect;
 }
 
+// makes one correct slots out of two slot spaces, used in generating the board, called from generateBlocks function
 function generateOneCorrectSlotOfTwo() {
     currentBlock = blockValues[i];
-    console.table({blockValues});
+
     firstOrSecondSlot = randomNumber0Through1();
     if (firstOrSecondSlot === 0) {
-        console.log('one correct, and that correct is first slot');
         firstCorrect = randomNumberNeg9Through9();
-        if ((currentBlock+firstCorrect) >= 0 && (currentBlock+firstCorrect) <= 9) {
-            console.log('firstCorrect is initally ' + firstCorrect);
-            // slotValues[j] = firstCorrect;
-            // document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            // j++;
-        } else {
-            while ((currentBlock + firstCorrect) < 0 || (currentBlock + firstCorrect) > 9) {
-                firstCorrect = randomNumberNeg9Through9();
-                console.log('(in while loop) firstCorrect is ' + firstCorrect);
-            }
-            // slotValues[j] = firstCorrect;
-            // document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            // j++;
+        while ((currentBlock + firstCorrect) < 0 || (currentBlock + firstCorrect) > 9) {
+            firstCorrect = randomNumberNeg9Through9();
         }
         slotValues[j] = firstCorrect;
         document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
         j++;
         nextBlock = currentBlock + firstCorrect;
-        console.log('nextBlock is ' + nextBlock);
         incorrectSlotValue1 = randomNumberNeg9Through9();
         slotValues[j] = incorrectSlotValue1;
         document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
         j++;
     } else if (firstOrSecondSlot === 1) {
-    console.log('one correct, and that correct is second slot');
-    firstCorrect = randomNumberNeg9Through9();
-    if ((currentBlock+firstCorrect) >= 0 && (currentBlock+firstCorrect) <= 9) {
-        console.log('firstCorrect is initally ' + firstCorrect);
-        // slotValues[j+1] = firstCorrect;
-        // document.getElementById(slotIds[j+1].toString()).textContent = slotValues[j+1];
-        // j++;
-    } else {
+        firstCorrect = randomNumberNeg9Through9();
         while ((currentBlock + firstCorrect) < 0 || (currentBlock + firstCorrect) > 9) {
             firstCorrect = randomNumberNeg9Through9();
-            console.log('(in while loop) firstCorrect is ' + firstCorrect);
         }
-        // slotValues[j+1] = firstCorrect;
-        // document.getElementById(slotIds[j+1].toString()).textContent = slotValues[j+1];
-        // j++;
-    }
-    slotValues[j+1] = firstCorrect;
-    document.getElementById(slotIds[j+1].toString()).textContent = slotValues[j+1];
-    j++;
-    nextBlock = currentBlock + firstCorrect;
-    console.log('nextBlock is ' + nextBlock);
-    incorrectSlotValue1 = randomNumberNeg9Through9();
-    slotValues[j-1] = incorrectSlotValue1;
-    document.getElementById(slotIds[j-1].toString()).textContent = slotValues[j-1];
-    j++;
-    }
-}
-
-function generateOneCorrectSlotOfThree() {
-    console.log('one correct slot will be made');
-        console.log('one correct, and that correct is second slot');
-        currentBlock = blockValues[i];
-        incorrectSlotValue1 = randomNumberNeg9Through9();
-        slotValues[j] = incorrectSlotValue1;
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        j++;
-        firstCorrect = randomNumberNeg9Through9();
-        if ((currentBlock+firstCorrect) >= 0 && (currentBlock+firstCorrect) <= 9) {
-            console.log('firstCorrect is initally ' + firstCorrect);
-            slotValues[j] = firstCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        } else {
-            while ((currentBlock + firstCorrect) < 0 || (currentBlock + firstCorrect) > 9) {
-                firstCorrect = randomNumberNeg9Through9();
-                console.log('(in while loop) firstCorrect is ' + firstCorrect);
-            }
-            slotValues[j] = firstCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        }
+        slotValues[j+1] = firstCorrect;
+        document.getElementById(slotIds[j+1].toString()).textContent = slotValues[j+1];
         j++;
         nextBlock = currentBlock + firstCorrect;
-        console.log('nextBlock is ' + nextBlock);
-        incorrectSlotValue2 = randomNumberNeg9Through9();
-        slotValues[j] = incorrectSlotValue2;
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+        incorrectSlotValue1 = randomNumberNeg9Through9();
+        slotValues[j-1] = incorrectSlotValue1;
+        document.getElementById(slotIds[j-1].toString()).textContent = slotValues[j-1];
         j++;
+    }
 }
 
+// makes one correct slots out of three slot spaces, used in generating the board, called from generateBlocks function
+function generateOneCorrectSlotOfThree() {
+    currentBlock = blockValues[i];
+    incorrectSlotValue1 = randomNumberNeg9Through9();
+    slotValues[j] = incorrectSlotValue1;
+    document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+    j++;
+    firstCorrect = randomNumberNeg9Through9();
+    while ((currentBlock + firstCorrect) < 0 || (currentBlock + firstCorrect) > 9) {
+        firstCorrect = randomNumberNeg9Through9();
+    }
+    slotValues[j] = firstCorrect;
+    document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+    j++;
+    nextBlock = currentBlock + firstCorrect;
+    incorrectSlotValue2 = randomNumberNeg9Through9();
+    slotValues[j] = incorrectSlotValue2;
+    document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+    j++;
+}
+
+// makes two correct slots out of three slot spaces, used in generating the board, called from generateBlocks function
 function generateTwoCorrectSlotsOfThree() {
-    console.log('two correct slots will be made out of three');
     currentBlock = blockValues[i];
     routeNumberOutofThree = randomNumber1Through3();
     incorrectSlotValue1 = randomNumberNeg9Through9();
     if (routeNumberOutofThree === 1) {
         firstCorrect = randomNumberNeg9Through9();
-        if ((currentBlock + firstCorrect) >= -9 && (currentBlock + firstCorrect) <= 9) {
-            console.log('firstCorrect is initally ' + firstCorrect);
-            slotValues[j] = firstCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
-        } else {
-            while ((currentBlock + firstCorrect) < -9 || (currentBlock + firstCorrect) > 9) {
-                firstCorrect = randomNumberNeg9Through9();
-                console.log('(in while loop) firstCorrect is ' + firstCorrect);
-            }
-            slotValues[j] = firstCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
+        while ((currentBlock + firstCorrect) < -9 || (currentBlock + firstCorrect) > 9) {
+            firstCorrect = randomNumberNeg9Through9();
         }
+        slotValues[j] = firstCorrect;
+        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+        j++;
         secondCorrect = randomNumberNeg9Through9();
-        if ((currentBlock+firstCorrect+secondCorrect) >= 0 && (currentBlock+firstCorrect+secondCorrect) <= 9) {
-            console.log('secondCorrect is initally ' + secondCorrect);
-            slotValues[j] = secondCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
-        } else {
-            while ((currentBlock+firstCorrect+secondCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect) > 9) {
-                secondCorrect = randomNumberNeg9Through9();
-                console.log('(in while loop) secondCorrect is ' + secondCorrect);
-            }
-            slotValues[j] = secondCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
+        while ((currentBlock+firstCorrect+secondCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect) > 9) {
+            secondCorrect = randomNumberNeg9Through9();
         }
+        slotValues[j] = secondCorrect;
+        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+        j++;
         nextBlock = currentBlock + firstCorrect +secondCorrect;
-        console.log('nextBlock is ' + nextBlock);
         slotValues[j] = incorrectSlotValue1;
         document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
         j++;
     } else if (routeNumberOutofThree === 2) {
         firstCorrect = randomNumberNeg9Through9();
-        if ((currentBlock + firstCorrect) >= -9 && (currentBlock + firstCorrect) <= 9) {
-            console.log('firstCorrect is initally ' + firstCorrect);
-            slotValues[j] = firstCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
-        } else {
-            while ((currentBlock + firstCorrect) < -9 || (currentBlock + firstCorrect) > 9) {
-                firstCorrect = randomNumberNeg9Through9();
-                console.log('(in while loop) firstCorrect is ' + firstCorrect);
-            }
-            slotValues[j] = firstCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
+        while ((currentBlock + firstCorrect) < -9 || (currentBlock + firstCorrect) > 9) {
+            firstCorrect = randomNumberNeg9Through9();
         }
+        slotValues[j] = firstCorrect;
+        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+        j++;
         slotValues[j] = incorrectSlotValue1;
         document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
         j++;
         secondCorrect = randomNumberNeg9Through9();
-        if ((currentBlock+firstCorrect+secondCorrect) >= 0 && (currentBlock+firstCorrect+secondCorrect) <= 9) {
-            console.log('secondCorrect is initally ' + secondCorrect);
-            slotValues[j] = secondCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
-        } else {
-            while ((currentBlock+firstCorrect+secondCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect) > 9) {
-                secondCorrect = randomNumberNeg9Through9();
-                console.log('(in while loop) secondCorrect is ' + secondCorrect);
-            }
-            slotValues[j] = secondCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
+        while ((currentBlock+firstCorrect+secondCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect) > 9) {
+            secondCorrect = randomNumberNeg9Through9();
         }
+        slotValues[j] = secondCorrect;
+        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+        j++;
         nextBlock = currentBlock + firstCorrect +secondCorrect;
-        console.log('nextBlock is ' + nextBlock);
     } else if (routeNumberOutofThree === 3) {
-
         slotValues[j] = incorrectSlotValue1;
         document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
         j++;
         secondCorrect = randomNumberNeg9Through9();
         firstCorrect = randomNumberNeg9Through9();
-        if ((currentBlock + firstCorrect) >= -9 && (currentBlock + firstCorrect) <= 9) {
-            console.log('firstCorrect is initally ' + firstCorrect);
-            slotValues[j] = firstCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
-        } else {
-            while ((currentBlock + firstCorrect) < -9 || (currentBlock + firstCorrect) > 9) {
-                firstCorrect = randomNumberNeg9Through9();
-                console.log('(in while loop) firstCorrect is ' + firstCorrect);
-            }
-            slotValues[j] = firstCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
+        while ((currentBlock + firstCorrect) < -9 || (currentBlock + firstCorrect) > 9) {
+            firstCorrect = randomNumberNeg9Through9();
         }
-        if ((currentBlock+firstCorrect+secondCorrect) >= 0 && (currentBlock+firstCorrect+secondCorrect) <= 9) {
-            console.log('secondCorrect is initally ' + secondCorrect);
-            slotValues[j] = secondCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
-        } else {
-            while ((currentBlock+firstCorrect+secondCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect) > 9) {
-                secondCorrect = randomNumberNeg9Through9();
-                console.log('(in while loop) secondCorrect is ' + secondCorrect);
-            }
-            slotValues[j] = secondCorrect;
-            document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-            j++;
+        slotValues[j] = firstCorrect;
+        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+        j++;
+        while ((currentBlock+firstCorrect+secondCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect) > 9) {
+            secondCorrect = randomNumberNeg9Through9();
         }
+        slotValues[j] = secondCorrect;
+        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+        j++;
         nextBlock = currentBlock + firstCorrect +secondCorrect;
-        console.log('nextBlock is ' + nextBlock);
-    } else {
-        console.log('there is an error in generateTwoCorrectSlotsOfThree');
     }
 }
 
+// makes three correct slots out of three slot spaces, used in generating the board, called from generateBlocks function
 function generateThreeCorrectSlotsOfThree() {
-    console.log('three correct slots will be made out of three');
     currentBlock = blockValues[i];
     firstCorrect = randomNumberNeg9Through9();
-    if ((currentBlock + firstCorrect) >= -9 && (currentBlock + firstCorrect) <= 9) {
-        console.log('firstCorrect is initally ' + firstCorrect);
-        slotValues[j] = firstCorrect;
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        j++;
-    } else {
-        while ((currentBlock + firstCorrect) < -9 || (currentBlock + firstCorrect) > 9) {
-            firstCorrect = randomNumberNeg9Through9();
-            console.log('(in while loop) firstCorrect is ' + firstCorrect);
-        }
-        slotValues[j] = firstCorrect;
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        j++;
+    while ((currentBlock + firstCorrect) < -9 || (currentBlock + firstCorrect) > 9) {
+        firstCorrect = randomNumberNeg9Through9();
     }
+    slotValues[j] = firstCorrect;
+    document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+    j++;
     secondCorrect = randomNumberNeg9Through9();
-    if ((currentBlock+firstCorrect+secondCorrect) >= 0 && (currentBlock+firstCorrect+secondCorrect) <= 9) {
-        console.log('secondCorrect is initally ' + secondCorrect);
-        slotValues[j] = secondCorrect;
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        j++;
-    } else {
-        while ((currentBlock+firstCorrect+secondCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect) > 9) {
-            secondCorrect = randomNumberNeg9Through9();
-            console.log('(in while loop) secondCorrect is ' + secondCorrect);
-        }
-        slotValues[j] = secondCorrect;
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        j++;
+    while ((currentBlock+firstCorrect+secondCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect) > 9) {
+        secondCorrect = randomNumberNeg9Through9();
     }
+    slotValues[j] = secondCorrect;
+    document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+    j++;
     thirdCorrect = randomNumberNeg9Through9();
-    if ((currentBlock+firstCorrect+secondCorrect+thirdCorrect) >= 0 && (currentBlock+firstCorrect+secondCorrect+thirdCorrect) <= 9) {
-        console.log('thirdCorrect is initally ' + thirdCorrect);
-        slotValues[j] = thirdCorrect;
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        j++;
-    } else {
-        while ((currentBlock+firstCorrect+secondCorrect+thirdCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect+thirdCorrect) > 9) {
-            thirdCorrect = randomNumberNeg9Through9();
-            console.log('(in while loop) thirdCorrect is ' + thirdCorrect);
-        }
-        slotValues[j] = thirdCorrect;
-        document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
-        j++;
+    while ((currentBlock+firstCorrect+secondCorrect+thirdCorrect) < 0 || (currentBlock+firstCorrect+secondCorrect+thirdCorrect) > 9) {
+        thirdCorrect = randomNumberNeg9Through9();
     }
+    slotValues[j] = thirdCorrect;
+    document.getElementById(slotIds[j].toString()).textContent = slotValues[j];
+    j++;
     nextBlock = currentBlock + firstCorrect + secondCorrect + thirdCorrect;
-    console.log('nextBlock is ' + nextBlock);
 }
 
 // this generates the entie game board, starting at i = 0 and going through each of the blocks in the blockId array
@@ -402,6 +277,7 @@ function generateBlocks() {
     }
 }
 
+// initializes the entire game, first parent fucntion of all others.
 function initialize() {
     slotValues = [];
     clickCount = 0;
@@ -422,6 +298,7 @@ function initialize() {
     themeMusic.play();
 }
 
+// initializes the next level after user has won previous level
 function initializeNextLevel () {
     headerElement.style.color = 'rgba(77,182,172,1)';
     timerBar.style.display = 'flex';
@@ -435,15 +312,13 @@ function initializeNextLevel () {
     initialize();
 }
 
+// starts the gradual transition of the background from near-white to reddish as the level starts
 function colorBackground() {
     mainElement.style.backgroundColor = 'rgba(183, 28, 28, 0.8)';
 }
 
-
-
 // colors the text of each slot based on if its negative(red) or positive(green)
 function colorTextOfSlots() {
-    console.table({slotValues, slotIds, currentValue, blockValues, blockIds});
     let currentIndex = 0;
     for (var value of slotValues) {
         if (value > 0) { // if its a positive number
@@ -466,15 +341,15 @@ function timerFunction () {
     timerBar.max = (80 - (levelCount-1)*10);
     timerBar.value = (80 - (levelCount-1)*10) - timeLeft;
     timeLeft -= 0.1;
-    if(timeLeft <= 0) {
-    updateYouLost();
-    clearInterval(setTimer);
+    if (timeLeft <= 0) {
+        updateYouLost();
+        clearInterval(setTimer);
     } if (gameOver) {
         clearInterval(setTimer);
     }
 }
 
-// starts the game
+// starts the game makes sure none of the instructions screens are showing, activates the divs that control click/double click
 function startGame() {
     startScreen0.style.display = 'none';
     startScreen1.style.display = 'none';
@@ -490,13 +365,8 @@ function startGame() {
 
 // in the instructions screen, hides every div that isn't the current instruction
 function moveToNextInstruction() {
+    document.getElementById(`startScreen${instuctionButtonCount}`).style.display = 'none';
     instuctionButtonCount++;
-    startScreen0.style.display = 'none';
-    startScreen1.style.display = 'none';
-    startScreen2.style.display = 'none';
-    startScreen3.style.display = 'none';
-    startScreen4.style.display = 'none';
-    startScreen5.style.display = 'none';
     document.getElementById(`startScreen${instuctionButtonCount}`).style.display = 'flex';
 }
 
@@ -504,7 +374,6 @@ function moveToNextInstruction() {
 // assigning the currentValue to the starting block value
 // adding event listeners for single and double clicks
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('up and running');
     mainElement = document.querySelector('main');
     headerElement = document.querySelector('header');
     timerBar = document.getElementById('timerBar');
@@ -533,6 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('thirdStartButton').addEventListener('click', moveToNextInstruction);
     document.getElementById('fourthStartButton').addEventListener('click', moveToNextInstruction);
     document.getElementById('fifthStartButton').addEventListener('click', startGame);
+
     highScoreEl = document.getElementById('highScore');
     if (!localStorage.getItem('highScore')) {
         localStorage.setItem('highScore', 0);
@@ -542,6 +412,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initialize();
 });
 
+// updates all the DOM content to show you lost, resets the timer, resets levelCount, scoreCount, timeLeft etc.
 function updateYouLost() {
     if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
         document.getElementById(clickCount.toString()).className = 'losingSlot';
@@ -566,6 +437,7 @@ function updateYouLost() {
     mainElement.style.backgroundColor = 'rgba(237, 240, 241, 0.9)';
 }
 
+// updates all the DOM content to show you won, resets the timer, reduces the next levels timer, increases levelCount
 function updateYouWon() {
     gameOver = true;
     headerElement.textContent = 'you won';
@@ -583,33 +455,24 @@ function updateYouWon() {
     winSound.play();
 }
 
+// checks if you lost using the three board parameters and then checks if you've won, done after every click
 function checkIfLost() {
     if (currentValue > 9) {
-        console.log('exceeded 9 in positive double digits, lost');
         updateYouLost();
     } else if (currentValue < -9 ) {
-        console.log('less than negative 9, exceeded double digits, lost');
         updateYouLost();
     } else if ( (blockIds.indexOf(board[clickCount]) > -1) && (currentValue != blockValues[blockIds.indexOf(clickCount)])) {
-        console.log('currrent block value is ', blockValues[blockIds.indexOf(clickCount)]);
-        console.log('current value doesnt match block value, you must match on blocks');
         updateYouLost();
     } else if ( ( slotIds.indexOf(board[clickCount]) > -1 ) && ( blockIds.indexOf(board[clickCount-1]) > -1 ) ) { // you're in a slot and the previous space is a block
-        console.log('knows youre in a slot after a block');
-        console.log('it thinks current value is ', currentValue);
-        console.log('it thinks the slot value is ', slotValues[slotIds.indexOf(clickCount)]);
-        console.log('it thinks current value minus slot value is (this should be previous block value ', (currentValue -  slotValues[slotIds.indexOf(clickCount)]));
-        console.log('it thinks the previous block value is ', blockValues[blockIds.indexOf(clickCount-1)]);
         if ( (currentValue -  slotValues[slotIds.indexOf(clickCount)]) !=  blockValues[blockIds.indexOf(clickCount-1)] ) {       
-            console.log('you skipped over a block, lost');
             updateYouLost();
         }
-    } if ((board.length - 1) === clickCount) {
-        console.log('you won');
+    } else if ((board.length - 1) === clickCount) {
         updateYouWon();
     }
 }
 
+// updates the DOM content of the space you were just on to clear its formatting and remove the value from it
 function emptyPreviouslyActiveSpace() {
     if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
         document.getElementById(clickCount.toString()).className = 'slot';
@@ -620,6 +483,7 @@ function emptyPreviouslyActiveSpace() {
     }
 }
 
+// files the now active space that you just jumped into, adds its value to your cumulative, adds score if you reach a block
 function fillActiveSpace() {
     if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
         document.getElementById(clickCount.toString()).className = 'selectedSlot';
@@ -635,58 +499,46 @@ function fillActiveSpace() {
     }
 }
 
+// registers a single jump click event, triggers the functions to update DOM, checks if you've lost
 function singleClick() {
     if (!gameOver) {
         emptyPreviouslyActiveSpace();
         clickCount++;
-        console.log('registered single click, count is ' + clickCount);
         if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
             currentValue = currentValue + slotValues[slotIds.indexOf(clickCount)];
-            console.log('in single click, slots, currentValue is', currentValue);
             fillActiveSpace();
             checkIfLost();
             moveToSlotSound.play();
         } else if ( blockIds.indexOf(board[clickCount]) > -1 ) { // you're on a block
-            console.log('in single click, blocks, currentValue is', currentValue);
             fillActiveSpace();
             checkIfLost();
             if (!gameOver) {
                 moveToBlockSound.play();
             }
-        } else {
-            console.log("error");
         }
-    } else {
-        console.log('game is over, cant click');
     }
 }
 
+// registers a double jump click event, triggers the functions to update DOM, checks if you've lost
 function doubleClick() {
     if (!gameOver) {
         emptyPreviouslyActiveSpace();
         clickCount += 2;
-        console.log('registered double click, count is '+ clickCount);
         if (clickCount > 37) {
             clickCount = 37;
             checkIfLost();
         }
         if ( slotIds.indexOf(board[clickCount]) > -1 ) { //you're in a slot;
             currentValue = currentValue + slotValues[slotIds.indexOf(clickCount)];
-            console.log('in double click, slots, currentValue is', currentValue);
             fillActiveSpace();
             checkIfLost();
             moveToSlotSound.play();
         } else if ( blockIds.indexOf(board[clickCount]) > -1 ) { // you're on a block
-            console.log('in double click, blocks, currentValue is', currentValue);
             fillActiveSpace();
             checkIfLost();
             if (!gameOver) {
                 moveToBlockSound.play();
             }
-        } else {
-            console.log("error");
         }
-    } else {
-        console.log('game is over, cant click');
     }
 }

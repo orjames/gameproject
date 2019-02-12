@@ -84,6 +84,10 @@ img {
 #startScreen4 {
     display: none;
 }
+/* #startScreen5 {
+    display: none;
+    object-fit: cover;
+} */
 #startScreen5 {
     display: none;
     font-size: 1.4rem;
