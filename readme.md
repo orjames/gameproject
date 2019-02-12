@@ -33,7 +33,9 @@ I knew I wanted to create a puzzle oriented game, and I wanted to focus on the l
 
 I originally planned on just having two slots for every move for simplicity, but decided to go with a mix between three and two slots between each block.
 
-Developing the logic was the hardest part I figured, so I sat down with my notepad and started thinking about edge cases, limitations, ways to test these. I decided block values should be between 0 - 9 (these are the values your cumulative number is trying to match), then set out to find a random way of determinging the spaces inbetween (called slots).
+Developing the logic was the hardest part I figured, so I sat down with my notepad and started thinking about edge cases, limitations, ways to test these. I decided block values should be between 0 - 9 (these are the values your cumulative number is trying to match), then set out to find a random way of determinging the spaces inbetween (called slots).a
+
+<img src="https://github.com/orjames/gameproject/blob/master/img/left_right_instructions.JPG" alt="instuctions1" width="200" style="display:inline-block;"/>
 
 For places where there are tow slots between blocks, ie block-slot-slot-block, I decided to randomly select if there was one planned correct slot or two planned correct slots (50/50).
 
